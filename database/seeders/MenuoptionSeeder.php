@@ -14,17 +14,17 @@ class MenuoptionSeeder extends Seeder
 			array(
 				'id'   => 1,
 				'name' => 'Categoría de opción de menu',
-				'link' => 'categoriaopcionmenu'
+				'link' => 'menuoptioncategory'
 			),
 			array(
 				'id'   => 2,
 				'name' => 'Opción de menu',
-				'link' => 'opcionmenu'
+				'link' => 'menuoption'
 			),
 			array(
 				'id'   => 3,
 				'name' => 'Tipos de usuario',
-				'link' => 'tipousuario'
+				'link' => 'usertype'
 			),
 			array(
 				'id'   => 4,
