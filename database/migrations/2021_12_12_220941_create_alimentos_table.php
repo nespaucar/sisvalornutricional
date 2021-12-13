@@ -69,6 +69,8 @@ class CreateAlimentosTable extends Migration
                 ->nullable();
             $table->decimal('potasio', 10, 2)
                 ->nullable();
+            $table->string('estrato', 300)
+                ->nullable();
             $table->integer('estado')
                 ->unsigned()
                 ->nullable(); // 1: ACTIVO, 2: INACTIVO
