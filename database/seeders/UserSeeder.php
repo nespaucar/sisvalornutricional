@@ -13,7 +13,7 @@ class UserSeeder extends Seeder
 			array(
 				'id'             => 1,
 				'login'          => 'admin',
-				'avatar'         => 'admin',
+				'avatar'         => 'admin.jpg',
 				'password'       => Hash::make('123'),
 				'state'          => 'A',
 				'persona_id'     => 1,
