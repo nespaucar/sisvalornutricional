@@ -1,9 +1,9 @@
 <?php
-use App\Menuoptioncategory;
-use App\Menuoption;
-use App\Permission;
-use App\Usuario;
-use App\Persona;
+use App\Models\Menuoptioncategory;
+use App\Models\Menuoption;
+use App\Models\Permission;
+use App\Models\Usuario;
+use App\Models\Persona;
 $user                  = Auth::user();
 session(['usertype_id' => $user->usertype_id]);
 $tipousuario_id        = session('usertype_id');
@@ -26,14 +26,14 @@ $nombrecompleto = $persona->nombres." ".$persona->apellidopaterno;
         <div class="clearfix"></div>
     </div>
 
-    <div class="user-detail">
+    <!--<div class="user-detail">
         <div class="dropup">
             <a style="cursor:pointer" href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true">
                 <div id="avatar" style ="display: block; margin-top: -40px; position: relative; top: 40px;">
                 <img src="{{ asset('avatar/' . $user->avatar) }}" alt="user-img" class="img-circle">
                 </div>
                 <span class="user-info-span" style="margin-left: 40px;">
-                    <h5 class="m-t-0 m-b-0">{!! $nombrecompleto !!}</h5>
+                    <h5 class="m-t-0 m-b-0">{!! explode(' ', $nombrecompleto)[0] !!}</h5>
                     <h6 class="m-t-0 m-b-0">{!! $usuario->usertype->nombre !!}</h6>
                 </span>
             </a>
@@ -42,9 +42,8 @@ $nombrecompleto = $persona->nombres." ".$persona->apellidopaterno;
                 <li><a style="cursor:pointer" href="javascript:void(0);" onclick="cargarRuta('updatepassword', 'container');"><i class="md md-vpn-key"></i> Cambiar Contraseña</a></li>
                 <li><a style="cursor:pointer" href="logout"><i class="md md-settings-power"></i> Cerrar Sesión</a></li>
             </ul>
-
         </div>
-    </div>
+    </div>-->
 </div>
 <?php
 function generarMenu($idtipousuario)
@@ -55,7 +54,7 @@ function generarMenu($idtipousuario)
     $opcionmenu          = new Menuoption();
     $permiso             = new Permission();
     $catPrincipales      = $categoriaopcionmenu->where('position','=','V')->whereNull('menuoptioncategory_id')->orderBy('order', 'ASC')->get();
-    $cadenaMenu          = '<ul><li class="menu-title">Principal</li>';
+    $cadenaMenu          = '<ul><li class="menu-title">Opciones</li>';
     foreach ($catPrincipales as $key => $catPrincipal) {
         #Buscamos a las categorias hijo
         $hijos = buscarHijos($catPrincipal->id, $idtipousuario);

@@ -6,31 +6,31 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-8 col-md-offset-2">
-        <div class="card-box table-responsive">
+    <div class="col-md-6 col-md-offset-3 boxfondo">
+        <div class="card-box">
             <div id="divMensajeError{!! $entidad !!}"></div>
             {!! Form::model($user, $formData) !!}	
             <div class="form-group">
-                <label class="control-label col-md-4" for="mypassword">Contraseña Actual:</label>
+                <label class="control-label col-md-4 requerido" for="mypassword">Contraseña Actual</label>
                 <div class="col-md-6">
-                    <input type="password" name="mypassword" class="form-control" placeholder="Ingrese contraseña actual">
+                    <input type="password" id="mypassword" name="mypassword" class="form-control" placeholder="Ingrese contraseña actual">
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-md-4" for="password">Nueva Contraseña:</label>
+                <label class="control-label col-md-4 requerido" for="password">Nueva Contraseña</label>
                 <div class="col-md-6">
-                    <input type="password" name="password" class="form-control" placeholder="Ingrese nueva contraseña">
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Ingrese nueva contraseña">
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-md-4" for="password_confirmation">Confirme Contraseña:</label>
+                <label class="control-label col-md-4 requerido" for="password_confirmation">Confirme Contraseña</label>
                 <div class="col-md-6">
-                    <input type="password" name="password_confirmation" class="form-control" placeholder="Confirme nueva contraseña">
+                    <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" placeholder="Confirme nueva contraseña">
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-6 col-md-offset-5">
-                    {!! Form::button('<i class="fa fa-check fa-lg"></i> '.$boton, array('class' => 'btn btn-primary', 'id' => 'btnGuardar', 'onclick' => 'cambiarpassword(\''.$entidad.'\', this)')) !!}
+                    {!! Form::button('<i class="fa fa-check fa-lg"></i> '.$boton, array('class' => 'btn btn-success waves-effect waves-light', 'id' => 'btnGuardar', 'onclick' => 'cambiarpassword(\''.$entidad.'\', this)')) !!}
                 </div>
             </div>
             {!! Form::close() !!}
@@ -39,6 +39,9 @@
 </div>
 
 <script>
+    $(document).ready(function() {
+        init(IDFORMMANTENIMIENTO+'{!! $entidad !!}', 'M', '{!! $entidad !!}');
+    });
 	function cambiarpassword (entidad, idboton) {
 		var idformulario = IDFORMMANTENIMIENTO + entidad;
 		var data         = submitForm(idformulario);
@@ -61,7 +64,10 @@
                 var cadenaError = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>La contraseña actual ingresada no es la correcta!!</strong></div>';
 				divMensaje.html(cadenaError);
 				divMensaje.show('slow');
-			}else{
+                $('#mypassword').val('');
+                $('#password').val('');
+                $('#password_confirmation').val('');
+			} else {
 				if (respuesta === 'OK') {
                     var cadenaExito = '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Contraseña cambiada satisfactoriamente!!</strong></div>';
 					divMensaje.html(cadenaExito);
@@ -73,18 +79,21 @@
 						var elementoValidado = $(cadena);
 						elementoValidado.parent().removeClass('has-error');
 					});
+                    $('#mypassword').val('');
+                    $('#password').val('');
+                    $('#password_confirmation').val('');
 
-                }else if(respuesta === "IGUAL"){
+                } else if(respuesta === "IGUAL"){
                     var cadenaError = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Tu nueva contraseña no puede ser igual a la anterior!!</strong></div>';
                     divMensaje.html(cadenaError);
                     divMensaje.show('slow');
-				
+                    $('#password').val('');
+                    $('#password_confirmation').val('');				
 				} else {
 					mostrarErrores(respuesta, idformulario, entidad);
+                    $('#password').val('');
+                    $('#password_confirmation').val('');
 				}
-                $('#password').val('');
-                $('#mypassword').val('');
-                $('#password_confirmation').val('');
 			}
 		});
 	}

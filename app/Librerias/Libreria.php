@@ -2,7 +2,7 @@
 
 namespace App\Librerias;
 use Validator;
-use App\Menuoption;
+use App\Models\Menuoption;
 
 /**
 * Libreria de clases

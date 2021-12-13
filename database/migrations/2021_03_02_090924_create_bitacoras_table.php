@@ -13,8 +13,15 @@ class CreateBitacorasTable extends Migration
             $table->increments('id');
             $table->string('descripcion', 600)
                 ->nullable();
+            $table->string('tabla', 60)
+                ->nullable();
+            $table->integer('tabla_id')
+                ->unsigned()
+                ->nullable();
             $table->integer('usuario_id')
                 ->unsigned()
+                ->nullable();
+            $table->date('fecha')
                 ->nullable();
             $table->timestamps();
             $table->softDeletes();

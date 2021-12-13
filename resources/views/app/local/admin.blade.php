@@ -19,7 +19,7 @@
 <!-- Main content -->
 <div class="row boxfondo">
     <div class="col-sm-12">
-        <div class="card-box table-responsive">
+        <div class="card-box">
 
             <div class="row m-b-30">
                 <div class="col-sm-12">
@@ -27,19 +27,11 @@
 					{!! Form::hidden('page', 1, array('id' => 'page')) !!}
 					{!! Form::hidden('accion', 'listar', array('id' => 'accion')) !!}
 					<div class="form-group">
-						{!! Form::label('serie', 'Serie:', array('class' => 'input-xs')) !!}
-						{!! Form::text('serie', '', array('class' => 'form-control input-xs', 'id' => 'serie', 'onkeyup' => 'buscar(\''.$entidad.'\')')) !!}
-					</div>
-					<div class="form-group">
-						{!! Form::label('nombre', 'Nombre:', array('class' => 'input-xs')) !!}
+						{!! Form::label('nombre', 'Nombre', array('class' => 'input-xs')) !!}
 						{!! Form::text('nombre', '', array('class' => 'form-control input-xs', 'id' => 'nombre', 'onkeyup' => 'buscar(\''.$entidad.'\')')) !!}
 					</div>
 					<div class="form-group">
-						{!! Form::label('tipo', 'Tipo:', array('class' => 'input-xs')) !!}
-						{!! Form::select("tipo", array("" => "--Todos--", "P" => "Particular", "N" => "Nacional"), null, array("class" => "form-control input-xs", "id" => "tipo", 'onchange' => 'buscar(\''.$entidad.'\')')) !!}
-					</div>
-					<div class="form-group">
-						{!! Form::label('filas', 'Filas:', array('class' => 'input-xs'))!!}
+						{!! Form::label('filas', 'Filas', array('class' => 'input-xs'))!!}
 						{!! Form::selectRange('filas', 1, 30, 10, array('class' => 'form-control input-xs', 'onchange' => 'buscar(\''.$entidad.'\')')) !!}
 					</div>
 					{!! Form::button('<i class="glyphicon glyphicon-search"></i> Buscar', array('class' => 'btn btn-success waves-effect waves-light m-l-10 btn-sm input-xs', 'id' => 'btnBuscar', 'onclick' => 'buscar(\''.$entidad.'\')')) !!}

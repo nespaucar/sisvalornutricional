@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use Hash;
 use Validator;
 use App\Http\Requests;
-use App\Usuario;
-use App\Local;
-use App\Usertype;
+use App\Models\Usuario;
+use App\Models\Persona;
+use App\Models\Local;
+use App\Models\Usertype;
+use App\Models\Bitacora;
 use App\Librerias\Libreria;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -41,14 +43,15 @@ class UsuarioController extends Controller {
         $filas            = $request->input('filas');
         $entidad          = 'Usuario';
         $login            = Libreria::getParam($request->input('login'));
-        $tipousuario_id  = Libreria::getParam($request->input('tipousuario_id'));
+        $tipousuario_id   = Libreria::getParam($request->input('tipousuario_id'));
         $resultado        = Usuario::listar($login,$tipousuario_id);
         $lista            = $resultado->get();
         $cabecera         = array();
         $cabecera[]       = array('valor' => '#', 'numero' => '1');
-        $cabecera[]       = array('valor' => 'Login', 'numero' => '1');
-        $cabecera[]       = array('valor' => 'Tipo de usuario', 'numero' => '1');
-        $cabecera[]       = array('valor' => 'Operaciones', 'numero' => '2');
+        $cabecera[]       = array('valor' => 'Nombre', 'numero' => '1');
+        $cabecera[]       = array('valor' => 'Usuario', 'numero' => '1');
+        $cabecera[]       = array('valor' => 'Tipo Usuario', 'numero' => '1');
+        $cabecera[]       = array('valor' => 'Acciones', 'numero' => '2');
         
         $titulo_modificar = $this->tituloModificar;
         $titulo_eliminar  = $this->tituloEliminar;
@@ -73,8 +76,8 @@ class UsuarioController extends Controller {
         $title            = $this->tituloAdmin;
         $titulo_registrar = $this->tituloRegistrar;
         $ruta             = $this->rutas;
-        $cboTipousuario   = array('' => 'Seleccione') + Usertype::pluck('nombre', 'id')->all();
-        return view($this->folderview.'.admin')->with(compact('entidad', 'cboTipousuario' , 'title', 'titulo_registrar', 'ruta'));
+        $cboUsertype   = array('' => '-- Todos --') + Usertype::pluck('nombre', 'id')->all();
+        return view($this->folderview.'.admin')->with(compact('entidad', 'cboUsertype' , 'title', 'titulo_registrar', 'ruta'));
     }
 
     public function create(Request $request)
@@ -82,31 +85,62 @@ class UsuarioController extends Controller {
         $listar         = Libreria::getParam($request->input('listar'), 'NO');
         $entidad        = 'Usuario';
         $usuario        = null;
-        $cboTipousuario = array('' => 'Seleccione') + Usertype::pluck('nombre', 'id')->all();
+        // Solo puedo crear un administrador principal, los otros tipos se crean automáticamente
+        $cboUsertype = array('1' => 'ADMINISTRADOR PRINCIPAL');
         $formData       = array('usuario.store');
         $formData       = array('route' => $formData, 'class' => 'form-horizontal', 'id' => 'formMantenimiento'.$entidad, 'autocomplete' => 'off');
         $boton          = 'Registrar'; 
-        return view($this->folderview.'.mant')->with(compact('usuario', 'formData', 'entidad', 'boton', 'listar', 'cboTipousuario'));
+        return view($this->folderview.'.mant')->with(compact('usuario', 'formData', 'entidad', 'boton', 'listar', 'cboUsertype'));
     }
 
     public function store(Request $request)
     {
         $listar     = Libreria::getParam($request->input('listar'), 'NO');
         $reglas = array(
-            'login'       => 'required|max:20|unique:usuario,login,NULL,id,deleted_at,NULL',
-            'password'    => 'required|max:20',
-            'usertype_id' => 'required|integer|exists:usertype,id,deleted_at,NULL',
-            );
+            'usertype_id' => 'required|integer|exists:usertype,id,deleted_at,NULL',            
+            'nombres'    => 'required|max:100',
+            'telefono' => 'required|max:9',            
+            'email' => 'required|email|max:100|unique:usuario,email,NULL,id,deleted_at,NULL',
+            'login' => 'required|max:20|unique:usuario,login,NULL,id,deleted_at,NULL',
+            'password' => 'required|min:6|max:18',
+        );
         $validacion = Validator::make($request->all(),$reglas);
         if ($validacion->fails()) {
             return $validacion->messages()->toJson();
         }
-        $error = DB::transaction(function() use($request){
+        $error = DB::transaction(function() use($request) {
+            $user     = Auth::user();
+
+            $persona = new Persona();
+            $persona                  = new Persona();
+            $persona->nombres         = $request->input('nombres');
+            $persona->dni             = $request->input('login');
+            $persona->tipo            = 'A'; // Comisionista
+            $persona->usuario_id      = 0;
+            $persona->local_id        = $user->persona->local_id;
+            $persona->telefono        = $request->input('telefono');
+            $persona->direccion       = $request->input('direccion');
+            $persona->save();
+
             $usuario               = new Usuario();
             $usuario->login        = $request->input('login');
+            $usuario->email        = $request->input('email');
             $usuario->password     = Hash::make($request->input('password'));
             $usuario->usertype_id  = $request->input('usertype_id');
+            $usuario->persona_id  = $persona->id;
+            $usuario->local_id  = $user->local_id;
             $usuario->save();
+
+            $persona->usuario_id = $usuario->id;
+            $persona->save();
+
+            $bitacora = new Bitacora();
+            $bitacora->fecha = date('Y-m-d');
+            $bitacora->descripcion = 'Se CREA el Usuario ' . $usuario->login;
+            $bitacora->tabla = 'USUARIO';
+            $bitacora->tabla_id = $usuario->id;
+            $bitacora->usuario_id = $user->id;
+            $bitacora->save();
         });
         return is_null($error) ? "OK" : $error;
     }
@@ -123,13 +157,13 @@ class UsuarioController extends Controller {
             return $existe;
         }
         $listar         = Libreria::getParam($request->input('listar'), 'NO');
-        $cboTipousuario = array('' => 'Seleccione') + Usertype::pluck('nombre', 'id')->all();
+        $cboUsertype = Usertype::pluck('nombre', 'id')->all();
         $usuario        = Usuario::find($id);
         $entidad        = 'Usuario';
         $formData       = array('usuario.update', $id);
         $formData       = array('route' => $formData, 'method' => 'PUT', 'class' => 'form-horizontal', 'id' => 'formMantenimiento'.$entidad, 'autocomplete' => 'off');
         $boton          = 'Modificar';
-        return view($this->folderview.'.mant')->with(compact('usuario', 'formData', 'entidad', 'boton', 'listar', 'cboTipousuario'));
+        return view($this->folderview.'.mant')->with(compact('usuario', 'formData', 'entidad', 'boton', 'listar', 'cboUsertype'));
     }
 
     public function update(Request $request, $id)
@@ -139,21 +173,41 @@ class UsuarioController extends Controller {
             return $existe;
         }
         $reglas = array(
-            'login'       => 'required|max:20|unique:usuario,login,'.$id.',id,deleted_at,NULL',
+            'nombres'    => 'required|max:100',
+            'telefono' => 'required|max:9',
+            'email' => 'required|email|max:100|unique:usuario,email,'.$id.',id,deleted_at,NULL',
+            'login'=> 'required|max:20|unique:usuario,login,'.$id.',id,deleted_at,NULL',
             'password' => 'required|min:6|max:18',
-            );
+        );
         $validacion = Validator::make($request->all(),$reglas);
         if ($validacion->fails()) {
             return $validacion->messages()->toJson();
         } 
         $error = DB::transaction(function() use($request, $id){
+            $user     = Auth::user();
+
             $usuario                 = Usuario::find($id);
             $usuario->login          = $request->input('login');
-            $usuario->usertype_id    = $request->input('usertype_id');
+            $usuario->email          = $request->input('email');
             if ($request->input('password') != null && $request->input('password') != '') {
-                $usuario->password = Hash::make($request->input('password'));
+                $usuario->password   = Hash::make($request->input('password'));
             }
             $usuario->save();
+
+            $persona              = $usuario->persona;
+            $persona->nombres     = $request->input('nombres');
+            $persona->dni         = $request->input('login');
+            $persona->telefono    = $request->input('telefono');
+            $persona->direccion   = $request->input('direccion');
+            $persona->save();
+            
+            $bitacora = new Bitacora();
+            $bitacora->fecha = date('Y-m-d');
+            $bitacora->descripcion = 'Se MODIFICA el Usuario ' . $usuario->login;
+            $bitacora->tabla = 'USUARIO';
+            $bitacora->tabla_id = $usuario->id;
+            $bitacora->usuario_id = $user->id;
+            $bitacora->save();
         });
         return is_null($error) ? "OK" : $error;
     }
@@ -165,7 +219,17 @@ class UsuarioController extends Controller {
             return $existe;
         }
         $error = DB::transaction(function() use($id){
-            $usuario = Usuario::find($id);
+            $usuario = Usuario::find($id);            
+
+            $user     = Auth::user();
+            $bitacora = new Bitacora();
+            $bitacora->fecha = date('Y-m-d');
+            $bitacora->descripcion = 'Se ELIMINA el Usuario ' . $usuario->login;
+            $bitacora->tabla = 'OPCIÓN DE MENÚ';
+            $bitacora->tabla_id = $usuario->id;
+            $bitacora->usuario_id = $user->id;
+            $bitacora->save();
+
             $usuario->delete();
         });
         return is_null($error) ? "OK" : $error;

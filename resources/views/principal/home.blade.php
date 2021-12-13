@@ -10,17 +10,6 @@
 
 @include('principal.footer_end')
 
-<script>
-    /*$(document).ready(function() {
-        $.ajax({
-        	url: "mensualidad/envioBoletas",
-        	method: "GET",
-        	success: function(e) {
-        		$.Notification.autoHideNotify('success', 'top right', "¡ÉXITO!", 'Boletas registradas correctamente.');
-        	},
-        	error: function() {
-        		//$.Notification.autoHideNotify('error', 'top right', "¡ERROR!", 'Hubo un problema al crear las boletas.');
-        	}
-        });
-    });*/
-</script>
+<a class='flotante'>
+    <img style="filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));" class="img img-responsive" src="https://munisanignacio.gob.pe/wp-content/uploads/2019/12/cropped-cropped-logompsi-1-768x180.png" alt="">
+</a>

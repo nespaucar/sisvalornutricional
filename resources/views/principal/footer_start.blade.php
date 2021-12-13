@@ -26,6 +26,7 @@
 {!! Html::script('assets/js/jquery.scrollTo.min.js') !!}
 {!! Html::script('plugins/switchery/switchery.min.js') !!}
 {!! Html::script('plugins/multiselect/js/jquery.multi-select.js') !!}
+{!! Html::script('assets/js/bootstrap-select.js') !!}
 <!-- peity charts -->
 
 <!-- bootbox code -->

@@ -1,15 +1,17 @@
 <?php
-use App\Menuoptioncategory;
-use App\Menuoption;
-use App\Permission;
-use App\User;
-use App\Persona;
+use App\Models\Menuoptioncategory;
+use App\Models\Menuoption;
+use App\Models\Permission;
+use App\Models\User;
+use App\Models\Persona;
+use Jenssegers\Date\Date;
 $user                  = Auth::user();
 session(['usertype_id' => $user->usertype_id]);
 $tipousuario_id        = session('usertype_id');
 $menu2                 = generarMenuHorizontal($tipousuario_id);
 $person                = Persona::find($user->persona_id);
-$nombrelocal           = mb_strtoupper($user->local->descripcion);
+$nombrelocal           = $person->local->descripcion;
+$date                  = Date::instance($user->created_at)->format('l j F Y');
 
 ?>
 <!-- Begin page -->
@@ -18,6 +20,15 @@ $nombrelocal           = mb_strtoupper($user->local->descripcion);
             background: rgba(51,122,183,0.10);
         }
         .labelr {
+            color: blue;
+        }
+        .requerido:after, .requerido2:after {
+            content: ' (*)';
+        }
+        .requerido {
+            color: red;
+        }
+        .requerido2 {
             color: blue;
         }
     </style>
@@ -29,7 +40,7 @@ $nombrelocal           = mb_strtoupper($user->local->descripcion);
                 <!-- LOGO -->
                 <div class="topbar-left">
                     <div class="text-center">
-                        <a href="#" class="logo"><i class="md md-equalizer"></i> <span>Requerimientos</span> </a>
+                        <a href="#" class="logo"><i class="md md-equalizer"></i> <span>Gestión de Pagos</span> </a>
                     </div>
                 </div>
 
@@ -146,6 +157,72 @@ $nombrelocal           = mb_strtoupper($user->local->descripcion);
                                         <i class="md md-home"></i>
                                         <b id="nombreGeneralLocal">{{$nombrelocal}}</b>
                                     </a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" data-target="#" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="true">
+                                        <font id="imgProfile1">
+                                            <img src="{{ asset('avatar/' . $user->avatar) }}?t={{time()}}" alt="user-img" class="img-circle" height="40px" width="40px" style="border-color: red; border: #3F51B5 2px solid;">
+                                        </font>
+                                        <font class="hidden-xs">
+                                            {{explode(' ', $person->nombres)[0]}} - {{$user->usertype->nombre}}
+                                        </font>
+                                        <font class="hidden-sm hidden-md hidden-lg">
+                                            {{explode(' ', $person->nombres)[0]}}
+                                        </font>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-lg">
+                                        <li class="text-center notifi-title">{{$person->nombres}} - {{$user->usertype->nombre}}</li>
+                                        <li class="text-center notifi-title" id="imgProfile2">
+                                            <img style="cursor:pointer" onclick="cargarRuta('actualizardatos', 'container');" src="{{ asset('avatar/' . $user->avatar) }}?t={{time()}}" alt="user-img" class="img-circle" height="90px" width="90px" style="border-color: red; border: #3F51B5 2px solid;">
+                                        </li>
+                                        <li class="text-center notifi-title"><p style="color: #32408F; font-size: 14px; margin-bottom: -4px;">Miembro desde el {{$date}}</p></li>
+                                        <li class="list-group nicescroll notification-list">
+                                            <a style="cursor:pointer" href="javascript:void(0);" onclick="cargarRuta('actualizardatos', 'container');" class="list-group-item">
+                                                <div class="media">
+                                                    <div class="pull-left p-r-10">
+                                                        <em class="md md-face-unlock noti-primary"></em>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h5 class="media-heading">Mi Perfil</h5>
+                                                        <p class="m-0">
+                                                            <small>Actualiza Tus Datos</small>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </a>
+
+                                            <a style="cursor:pointer" href="javascript:void(0);" onclick="cargarRuta('updatepassword', 'container');" class="list-group-item">
+                                                <div class="media">
+                                                    <div class="pull-left p-r-10">
+                                                        <em class="md md-vpn-key noti-warning"></em>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h5 class="media-heading">Cambiar Contraseña</h5>
+                                                        <p class="m-0">
+                                                            <small>Cambia Tu Contraseña</small>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </a>
+
+                                            <a style="cursor:pointer" href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="list-group-item">
+                                                <div class="media">
+                                                    <div class="pull-left p-r-10">
+                                                        <em class="md md-settings-power noti-danger"></em>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h5 class="media-heading">Cerrar Sesión</h5>
+                                                        <p class="m-0">
+                                                            <small>Hasta Pronto</small>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <form id="logout-form" action="{{route('logout')}}" method="POST" style="display: none;">
+                                                @csrf
+                                            </form>
+                                        </li>                                        
+                                    </ul>
                                 </li>
                             </ul>
                         </div>

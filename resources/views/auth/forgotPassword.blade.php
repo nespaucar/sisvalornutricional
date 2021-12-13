@@ -2,21 +2,18 @@
 <div class="wrapper-page">
     <div class="card-box">
         <div class="text-center">
-            <a class="logo-lg"><i class="md md-equalizer"></i> <span>Restablecer Contraseña</span> </a>
+            <img style="filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));" class="img img-responsive" src="https://ci3.googleusercontent.com/proxy/VtN6L4u-tLf2JQF0tBC-27G9Qx0sEGPVoeKa8AM9KKFSYN2rdNuDeWcLsacj3H05YaFjEepIH0Q381KTUbiC1_WcaLn-aJOutvOVxcPEnf3VvBjfX0NXqGs7-mNITfk03So9xYdyQRr7rLUpFQJd7nfq=s0-d-e1-ft#https://munisanignacio.gob.pe/wp-content/uploads/2019/12/cropped-cropped-logompsi-1-768x180.png" alt="">
+            <a class="logo-lg" style="filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));"><i class="md md-equalizer"></i> <span>Restablecer Contraseña</span></a>
         </div>
         <div class="panel-body">
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
-
-            <form class="form-horizontal" role="form" method="POST" action="{{ url('/password/email') }}">
+            <div id="notificaciones" class="alert hide">
+                <strong id="wordNotifications"></strong>
+            </div>
+            <form id="formSend" class="form-horizontal" role="form" onsubmit="return false;">
                 {{ csrf_field() }}
-
                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                     <div class="col-md-12">
-                        <input id="email" type="text" class="form-control" name="email" value="{{ old('email') }}" placeholder="Correo Electrónico" autofocus>
+                        <input id="email" type="text" class="form-control" name="email" value="{{ old('email') }}" placeholder="Correo Electrónico" autofocus maxlength="120">
                         <i class="md md-mail form-control-feedback l-h-34"></i>
 
                         @if ($errors->has('email'))
@@ -29,20 +26,55 @@
 
                 <div class="form-group" style="text-align: center">
                     <div class="col-md-12">
-                        <button class="btn btn-primary btn-custom w-md waves-effect waves-light" type="submit">
-                            Restablecer Contraseña
-                        </button>
+                        <a href="{{ url('/login') }}" class="btn btn-warning btn-custom w-md waves-effect waves-light">
+                            <i class="fa fa-arrow-left"></i> Retornar
+                        </a>
+                        <button class="btn btn-primary btn-custom w-md waves-effect waves-light" onclick="sendData();">
+                            <i class="fa fa-save"></i> Restablecer Contraseña
+                        </button>                        
                     </div>
                 </div>
             </form>
-            <div style="text-align: center">
-                <div class="col-md-12">
-                    <a href="{{ url('/login') }}" class="btn btn-success btn-custom w-md waves-effect waves-light">
-                        Retornar
-                    </a>
-                </div>
-            </div>
         </div>
     </div>
 </div>
 @include('auth.footer')
+<script>
+    function sendData() {
+        $.ajax({
+            url: 'recuperarPassword',
+            data: $('#formSend').serialize(),
+            type: 'POST',
+            dataType: 'JSON',
+            beforeSend: function() {
+                $('#wordNotifications').html('Cargando');
+                $('#notificaciones')
+                    .removeClass('alert-danger')
+                    .removeClass('alert-success')
+                    .removeClass('hide');
+            },
+            success: function(e) {
+                if(e === 'OK') {
+                    $('#wordNotifications').html('Tu contraseña ha sido enviada a tu correo, revisa tu bandeja de entrada o spam.');
+                    $('#notificaciones')
+                        .removeClass('alert-danger')
+                        .addClass('alert-success')
+                        .removeClass('hide');
+                } else {
+                    $('#wordNotifications').html(e);
+                    $('#notificaciones')
+                        .removeClass('alert-success')
+                        .addClass('alert-danger')
+                        .removeClass('hide');
+                }
+            },
+            error: function() {
+                $('#wordNotifications').html('Ocurrió un error desconocido, vuelve a intentar');
+                $('#notificaciones')
+                    .removeClass('alert-success')
+                    .addClass('alert-danger')
+                    .removeClass('hide');
+            }
+        });
+    }
+</script>

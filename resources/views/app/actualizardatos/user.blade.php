@@ -8,8 +8,9 @@
 </div>
 <?php
 use Illuminate\Support\Facades\Auth;
-use App\Usuario;
+use App\Models\Usuario;
 $user = Auth::user();
+$avatar = $user->avatar;
 ?>
 <style>
 	.fc-day {
@@ -18,88 +19,93 @@ $user = Auth::user();
 	.fc-day:hover {
 		background-color: #DAE3E2;
 	}
+	#imageProfile {
+		position: absolute;
+		width: 100%;
+		height: 190px;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+		bottom: 0px;
+		opacity: 0;
+	}
+	.imageProfileSection {
+		border: #3F51B5 2px solid;
+	}
 </style>
 <!-- Main content -->
 <div class="row">
-    <div class="col-sm-12">
-        <div class="card-box table-responsive">
+    <div class="col-md-6 col-md-offset-3 boxfondo">
+        <div class="card-box">
 			<div id="divMensajeError{!! $entidad !!}"></div>
 			{!! Form::model($persona, $formData) !!}	
 			{!! Form::hidden('listar', $listar, array('id' => 'listar')) !!}
-			<div class="col-sm-6">
-				<div class="form-group">
-					{!! Form::label('nombres', 'Nombres:', array('class' => 'col-lg-3 col-md-3 col-sm-3 control-label')) !!}
-					<div class="col-lg-9 col-md-9 col-sm-9">
-						{!! Form::text('nombres', null, array('disabled','class' => 'form-control input-xs', 'placeholder' => 'Ingrese nombre')) !!}
-					</div>
-				</div>
-
-				<div class="form-group">
-					{!! Form::label('apellidopaterno', 'Apellido Paterno:', array('class' => 'col-lg-3 col-md-3 col-sm-3 control-label')) !!}
-					<div class="col-lg-9 col-md-9 col-sm-9">
-						{!! Form::text('apellidopaterno', null, array('disabled','class' => 'form-control input-xs', 'placeholder' => 'Ingrese apellido paterno')) !!}
-					</div>
-				</div>
-
-				<div class="form-group">
-					{!! Form::label('apellidomaterno', 'Apellido Materno:', array('class' => 'col-lg-3 col-md-3 col-sm-3 control-label')) !!}
-					<div class="col-lg-9 col-md-9 col-sm-9">
-						{!! Form::text('apellidomaterno', null, array('disabled','class' => 'form-control input-xs', 'placeholder' => 'Ingrese apellido materno')) !!}
-					</div>
-				</div>
-
-				<div class="form-group">
-					{!! Form::label('dni', 'DNI:', array('class' => 'col-lg-3 col-md-3 col-sm-3 control-label')) !!}
-					<div class="col-lg-9 col-md-9 col-sm-9">
-						{!! Form::text('dni', null, array('class' => 'form-control input-xs input-number', 'id' => 'dni', 'placeholder' => 'Ingrese dni')) !!}
-					</div>
-				</div>
-
-				<div class="form-group">
-					{!! Form::label('direccion', 'Direccion:', array('class' => 'col-lg-3 col-md-3 col-sm-3 control-label')) !!}
-					<div class="col-lg-9 col-md-9 col-sm-9">
-						{!! Form::text('direccion', null, array('class' => 'form-control input-xs', 'id' => 'direccion', 'placeholder' => 'Ingrese direccion')) !!}
-					</div>
+			<div class="form-group">
+				{!! Form::label('nombres', 'Nombres', array('class' => 'col-lg-3 col-md-3 col-sm-3 control-label requerido')) !!}
+				<div class="col-lg-9 col-md-9 col-sm-9">
+					{!! Form::text('nombres', null, array('disabled','class' => 'form-control input-xs', 'placeholder' => 'Ingrese nombre')) !!}
 				</div>
 			</div>
-			<div class="col-sm-6">
-				<div class="form-group">
-					{!! Form::label('email', 'E-Mail:', array('class' => 'col-lg-3 col-md-3 col-sm-3 control-label')) !!}
-					<div class="col-lg-9 col-md-9 col-sm-9">
-						{!! Form::text('email', $user->email, array('class' => 'form-control input-xs', 'id' => 'email', 'placeholder' => 'email@ejemplo.com')) !!}
-					</div>
+
+			<div class="form-group">
+				{!! Form::label('dni', 'DNI', array('class' => 'col-lg-3 col-md-3 col-sm-3 control-label requerido')) !!}
+				<div class="col-lg-4 col-md-4 col-sm-4">
+					{!! Form::text('dni', null, array('class' => 'form-control input-xs input-number', 'id' => 'dni', 'placeholder' => 'Ingrese dni', 'maxlength' => '8', 'readonly')) !!}
 				</div>
-				<div class="form-group">
-					{!! Form::label('image', 'Imagen de perfil:', array('class' => 'col-lg-3 col-md-3 col-sm-3 control-label')) !!}
-					<div class="col-lg-9 col-md-9 col-sm-9">
-						<input type="file" name="image" class ="form-control input-xs" id="image" >
-					</div>
+			</div>
+
+			<div class="form-group">
+				{!! Form::label('direccion', 'Direccion', array('class' => 'col-lg-3 col-md-3 col-sm-3 control-label requerido')) !!}
+				<div class="col-lg-9 col-md-9 col-sm-9">
+					{!! Form::text('direccion', null, array('class' => 'form-control input-xs', 'id' => 'direccion', 'placeholder' => 'Ingrese direccion')) !!}
 				</div>
-				<div class="form-group">
-					<div class="col-lg-12 col-md-12 col-sm-12 text-right">
-						{!! Form::button('<i class="fa fa-check fa-lg"></i> '.$boton, array('class' => 'btn btn-primary', 'id' => 'btnGuardar', 'onclick' => 'actualizardatos(\''.$entidad.'\', this)')) !!}
-					</div>
+			</div>
+
+			<div class="form-group">
+				{!! Form::label('email', 'Email', array('class' => 'col-lg-3 col-md-3 col-sm-3 control-label requerido')) !!}
+				<div class="col-lg-9 col-md-9 col-sm-9">
+					{!! Form::text('email', $user->email, array('class' => 'form-control input-xs', 'id' => 'email', 'placeholder' => 'email@ejemplo.com')) !!}
+				</div>
+			</div>
+			<div class="form-group">
+				{!! Form::label('imageProfile', 'Imagen de perfil (JPG|PNG|JPEG)', array('class' => 'col-lg-3 col-md-3 col-sm-3 control-label')) !!}
+				<div class="col-lg-9 col-md-9 col-sm-9">
+					{!! Form::file('imageProfile', array('id' => 'imageProfile', 'style' => 'cursor: pointer;')) !!}
+					{!! Form::hidden('imgChange', "0", array('id' => 'imgChange')) !!}
+					<center>
+						<div id="imageProfileSection">
+							<img src="{{ asset('avatar/' . $avatar) }}?t={{time()}}" class="img-circle imageProfileSection" height="200" width="200" alt="">
+						</div>								
+						<br>
+						<br>
+						{!! Form::button('<i class="fa fa-undo fa-md"></i> Restaurar Imagen', array('class' => 'btn btn-warning waves-effect waves-light btn-xl', 'onclick' => 'resetearImage();')) !!}
+					</center>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-lg-12 col-md-12 col-sm-12 text-right">
+					{!! Form::button('<i class="fa fa-check fa-lg"></i> Guardar Cambios', array('class' => 'btn waves-effect waves-light btn-success', 'id' => 'btnGuardar', 'onclick' => 'actualizardatos(\''.$entidad.'\', this)')) !!}
 				</div>
 			</div>
 			{!! Form::close() !!}
         </div>
     </div>
 </div>
-<div class="row hide">
+<div class="row">
     <div class="col-sm-2"></div>
     <div class="col-sm-8">
-    	<div id="CalendarioWeb"></div>
+    	<div id="CalendarioWeb" style="display: none;"></div>
     </div>
     <div class="col-sm-2"></div>
 </div>
 
 <script>
-	$(document).ready(function() {		
-		$("#CalendarioWeb").fullCalendar({
+	$(document).ready(function() {
+		init(IDFORMMANTENIMIENTO+'{!! $entidad !!}', 'M', '{!! $entidad !!}');	
+		/*$("#CalendarioWeb").fullCalendar({
 			header: {
-				left: 'today, prev,next, MiBoton',
-				center: 'title',
-				right: 'month,basicWeek,basicDay',
+				left: 'title',
+				right: 'year,month,timelineCustom,agendaYear,prev,today,next, listMonth',
 			},
 			customButtons: {
 				MiBoton: {
@@ -110,7 +116,7 @@ $user = Auth::user();
 				}
 			},
 			dayClick: function(date, jsEvent, view) {
-				modal();
+				alert('sd');
 			},
 			eventSources: [{
 				events: [
@@ -138,10 +144,14 @@ $user = Auth::user();
 
 			}],
 			eventClick: function(callEvent, jsEvent, view) {
-				modal();
+				alert('');
 			}				
+		});*/
+		$("#imageProfile").change(function() {
+			validarImagen(this);
 		});
 	});
+		
 	function actualizardatos (entidad, idboton) {
 		var idformulario = IDFORMMANTENIMIENTO + entidad;
 		//FORM
@@ -185,19 +195,27 @@ $user = Auth::user();
 						var elementoValidado = $(cadena);
 						elementoValidado.parent().removeClass('has-error');
 					});
+					$("#imageProfile").val('');
 					//Actualizar imagen -- tengo error no convierte de Object a string
 					
-					var accion     = '{{ url("/actualizardatosavatar") }}';
+					var accion = 'actualizardatosavatar';
 					$.ajax({
 						url : accion,
-						headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-						type: 'POST',
-						success: function (JSONRESPONSE) {
-							console.log(JSONRESPONSE);
-							var avatar = '<img src="avatar/'+ JSONRESPONSE +'" alt="user-img" class="img-circle">';
-							var divAvatar = $('#avatar');
-							divAvatar.html(avatar);
-							divAvatar.show('slow');
+						data: {
+							'_token': '{{ csrf_token() }}',
+						},
+						type: 'GET',
+						success: function (img) {
+							console.log(img);
+							var avatar1 = '<img src="avatar/'+ img +'?t={{time()}}" alt="user-img" class="img-circle" height="40px" width="40px" style="border-color: red; border: #3F51B5 2px solid;">';
+							var avatar2 = '<img style="cursor:pointer" onclick="cargarRuta(\'actualizardatos\', \'container\');" src="avatar/'+ img +'?t={{time()}}" alt="user-img" class="img-circle" height="90px" width="90px" style="border-color: red; border: #3F51B5 2px solid;">';
+							var divAvatar1 = $('#imgProfile1');
+							var divAvatar2 = $('#imgProfile2');
+							divAvatar1.html(avatar1);
+							divAvatar2.html(avatar2);
+							divAvatar1.show('slow');
+							divAvatar2.show('slow');
+							$("#imageProfile").val('');
 						},
 					});
 				} else {
@@ -207,7 +225,7 @@ $user = Auth::user();
 		});
 	}
 
-	function procesarAjax(DATA,entidad){
+	function procesarAjax(DATA,entidad) {
 		if(entidad === "Persona"){
 			var url     = $('#formMantenimientoPersona').attr('action').toLowerCase();
 		}
@@ -225,17 +243,63 @@ $user = Auth::user();
 		return respuesta;
 	}
 
-	function obtenerAvatar(){
-		var accion     = '{{ url("/actualizardatosavatar") }}';
-		var respuesta  = $.ajax({
-			url : accion,
-			headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-			type: 'POST'
-		});
-		return respuesta;
-	}
-
 	$('.input-number').on('input', function () { 
     	this.value = this.value.replace(/[^0-9]/g,'');
 	});
+
+	function validarImagen(obj) {
+		var ret = true;
+	    var uploadFile = obj.files[0];
+
+	    if (!window.FileReader) {
+	        mostrarMensaje('Tu navegador no soporta Cambio de imagen', 'ERROR');
+	        $("#imgChange").val("0");
+	        resetearImage();
+	    }
+
+	    if (!(/\.(jpg|png|jpeg|JPG|PNG|JPEG)$/i).test(uploadFile.name)) {
+	        mostrarMensaje('Formato de Archivo no permitido', 'ERROR');
+	        $("#imgChange").val("0");
+	        resetearImage();
+	    } else {
+	        var img = new Image();
+	        img.onload = function () {
+	            if (uploadFile.size > 500000) {
+	                mostrarMensaje('El archivo no puede pesar más de 500KB', 'ERROR');
+	                resetearImage();
+	                $("#imgChange").val("0");
+	            } else {
+	            	filePreview(obj);
+	            	$("#imgChange").val("1");
+	            }
+	        };
+	        img.src = URL.createObjectURL(uploadFile);
+	    }                 
+	}
+
+	function filePreview(input) {		
+		if(input.files && input.files[0]) {
+			var reader = new FileReader();
+			reader.onload = function(e) {				
+				$("#imageProfileSection").html('<img src="' + e.target.result + '" class="img-circle imageProfileSection" height="200" width="200" alt="">');
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+
+	function resetearImage() {
+		var accion = 'actualizardatosavatar';
+		$.ajax({
+			url : accion,
+			data: {
+				'_token': '{{ csrf_token() }}',
+			},
+			type: 'GET',
+			success: function (img) {
+				$("#imageProfileSection").html('<img src="avatar/' + img + '?t={{time()}}" class="img-circle imageProfileSection" height="200" width="200" alt="">');
+				$("#imgChange").val("0");
+				$("#imageProfile").val('');
+			},
+		});		
+	}
 </script>

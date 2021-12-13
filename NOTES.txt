@@ -17,3 +17,16 @@ $table->char('state', 1)
 $table->timestamps();
 
 $table->softDeletes();
+
+--- PARA ACTIVACIÓN DE SISTEMA ---
+
+La carpeta ESQUELETO es el FrontEnd
+
+1. Quitar primer paquete de laravel-lang en la seccion "require" en compose.json
+2. Correr composer update en consola
+3. Crear base de datos en mysql
+4. Correr php artisan migrate en consola (para crear base de datos)
+5. Correr php artisan migrate:refresh --seed (para correr los seeders y crear primeros registros en bd)
+6. Cambiar en el campo de avatar a admin.jpg
+
+7. Loguearse con usuario "admin" contraseña "123"

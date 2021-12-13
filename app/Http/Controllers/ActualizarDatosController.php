@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use Hash;
 use Validator;
-use App\Persona;
-use App\Usuario;
+use Illuminate\Support\Facades\Hash;
+use App\Models\Persona;
+use App\Models\Usuario;
+use App\Models\Bitacora;
 use App\Librerias\Libreria;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
@@ -64,7 +65,7 @@ class ActualizarDatosController extends Controller
     public function update(Request $request, $id)
     {
 
-        $user             = Auth::user();
+        $user   = Auth::user();
 
         if($user->persona_id !== null){
 
@@ -73,50 +74,52 @@ class ActualizarDatosController extends Controller
                 return $existe;
             }
             $reglas = array(
-                'dni' => 'required|digits:8',
-                'dni' => [
-                    'required',
-                    Rule::unique('persona')->ignore($user->persona_id),
-                ],
-                'direccion' => 'required|max:50',
-                'email' => 'required|max:100',
+                'direccion' => 'required|max:100',
+                'email' => 'required|email|max:50',
                 'email' => [
                     'required',
                     Rule::unique('usuario')->ignore($user->id),
                 ],
-                'image' => 'required|image|mimes:jpg,png,jpeg,bmp|max:1024',
+                'imageProfile' => 'image|mimes:jpg,png,jpeg,JPG,PNG,JPEG|max:500000',
                 );
             $validacion = Validator::make($request->all(),$reglas);
             if ($validacion->fails()) {
                 return $validacion->messages()->toJson();
             } 
             $error = DB::transaction(function() use($request, $id){
-                $user             = Auth::user();
-                $persona                 = Persona::find($id);
-                $persona->dni     = $request->input('dni');
-                $persona->direccion     = $request->input('direccion');
-                $usuario                 = Usuario::find($user->id);
+                $user               = Auth::user();
+                $persona            = Persona::find($id);
+                $persona->direccion = $request->input('direccion');
+                $usuario            = Usuario::find($user->id);
                 $usuario->email     = $request->input('email');
                 $persona->save();
                 $usuario->save();
+
+                $bitacora = new Bitacora();
+                $bitacora->fecha = date('Y-m-d');
+                $bitacora->descripcion = 'Se ACTUALIZAN LOS DATOS del ' . ($persona->tipo==='A'?'ADMINISTRADOR':($persona->tipo==='C'?'COMISIONISTA':'VENDEDOR')) . ' ' . $persona->nombres;
+                $bitacora->tabla = 'PERSONA';
+                $bitacora->tabla_id = $persona->id;
+                $bitacora->usuario_id = $user->id;
+                $bitacora->save();
             });
 
             $path = '';
             
-            if ($request->hasFile('image')){
-                if ($request->file('image')->isValid()){
+            if ($request->hasFile('imageProfile')){
+                if ($request->file('imageProfile')->isValid()) {
 
                     $user = Auth::user();
                     $usuario = Usuario::find($user->id);
 
-                    if(\File::exists('avatar/'.$usuario->avatar) && $usuario->avatar !== 'default_avatar.png'){
+                    if(\File::exists('avatar/'.$usuario->avatar) && $usuario->avatar !== 'admin.jpg') {
                         \File::delete('avatar/'.$usuario->avatar);
                     }
                     
-                    $filename = Auth::id().'_'.time().'.'.$request->image->getClientOriginalExtension();
+                    $filename = $user->id.'_'.time().'.'.$request->imageProfile->getClientOriginalExtension();
                     $path = public_path('avatar/'.$filename);
 
-                    $file = $request->file('image');
+                    $file = $request->file('imageProfile');
                     Image::make($file)->fit(144, 144);//->save($path);
                     $file->move('avatar', $filename);
                     
@@ -125,13 +128,13 @@ class ActualizarDatosController extends Controller
                 }
             }
 
-            return is_null($error) ? "OK" : $error;
+            return is_null($error) ? 'OK' : $error;
 
         }
 
     }
 
-    public function avatar(Request $request){
+    public function actualizardatosavatar(Request $request){
         $user = Auth::user();
         $usuario = Usuario::find($user->id);
         return $usuario->avatar;

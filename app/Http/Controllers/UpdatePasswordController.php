@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Librerias\Libreria;
-use App\Usuario;
+use App\Models\Usuario;
+use App\Models\Bitacora;
 
 class UpdatePasswordController extends Controller
 {
@@ -113,8 +114,17 @@ class UpdatePasswordController extends Controller
             if (Hash::check($request->mypassword, Auth::user()->password) && !Hash::check($request->password, Auth::user()->password) ){
                 $error = DB::transaction(function() use($request, $id){
                     $usuario           = Usuario::find($id);
-                    $usuario->password = bcrypt($request->get('new-password'));
+                    $usuario->password = bcrypt($request->get('password_confirmation'));
                     $usuario->save();
+
+                    $user     = Auth::user();
+                    $bitacora = new Bitacora();
+                    $bitacora->fecha = date('Y-m-d');
+                    $bitacora->descripcion = 'Se ACTUALIZA CONTRASEÑA del Usuario ' . $usuario->login;
+                    $bitacora->tabla = 'USUARIO';
+                    $bitacora->tabla_id = $usuario->id;
+                    $bitacora->usuario_id = $user->id;
+                    $bitacora->save();
                 });
                 return is_null($error) ? "OK" : $error;
             }
@@ -130,4 +140,6 @@ class UpdatePasswordController extends Controller
             }
         }
     }
+
+
 }

@@ -1,3 +1,4 @@
+    {!! Html::style('assets/css/bootstrap-select.css') !!}
     {!! Html::style('assets/css/bootstrap.min.css') !!}
     {!! Html::style('assets/css/core.css') !!}
     {!! Html::style('assets/css/icons.css') !!}

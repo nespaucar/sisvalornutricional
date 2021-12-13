@@ -37,6 +37,9 @@ class CreateTablePersona extends Migration
             $table->char('estado', 1)
                 ->nullable();
                 //A: ACTIVO, I: INACTIVO
+            $table->integer('local_id')
+                ->unsigned()
+                ->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

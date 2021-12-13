@@ -9,7 +9,7 @@
 
 <div class="row boxfondo">
     <div class="col-sm-12">
-        <div class="card-box table-responsive">
+        <div class="card-box">
 
             <div class="row m-b-30">
                 <div class="col-sm-12">
@@ -17,15 +17,15 @@
 					{!! Form::hidden('page', 1, array('id' => 'page')) !!}
 					{!! Form::hidden('accion', 'listar', array('id' => 'accion')) !!}
 					<div class="form-group">
-						{!! Form::label('login', 'Nombre:', array('class'=>'input-xs')) !!}
+						{!! Form::label('login', 'Nombre', array('class'=>'input-xs')) !!}
 						{!! Form::text('login', '', array('class' => 'form-control input-xs', 'id' => 'login', 'onkeyup' => 'buscar(\''.$entidad.'\')')) !!}
+						{!! Form::label('tipousuario_id', 'Tipo', array('class'=>'input-xs')) !!}
 					</div>
-					<div class="form-group">
-						{!! Form::label('tipousuario_id', 'Tipo:', array('class'=>'input-xs')) !!}
-						{!! Form::select('tipousuario_id', $cboTipousuario, null, array('class' => 'form-control input-xs', 'id' => 'tipousuario_id', 'onchange' => 'buscar(\''.$entidad.'\')')) !!}
+					<div class="form-group">						
+						{!! Form::select('tipousuario_id', $cboUsertype, null, array('class' => 'form-control input-xs', 'id' => 'tipousuario_id', 'onchange' => 'buscar(\''.$entidad.'\')', 'data-live-search' => 'true')) !!}
 					</div>	
 					<div class="form-group">
-						{!! Form::label('filas', 'Filas a mostrar:')!!}
+						{!! Form::label('filas', 'Filas a mostrar')!!}
 						{!! Form::selectRange('filas', 1, 30, 10, array('class' => 'form-control input-xs', 'onchange' => 'buscar(\''.$entidad.'\')')) !!}
 					</div>
 					{!! Form::button('<i class="glyphicon glyphicon-search"></i> Buscar', array('class' => 'btn btn-success waves-effect waves-light m-l-10 btn-sm', 'id' => 'btnBuscar', 'onclick' => 'buscar(\''.$entidad.'\')')) !!}
@@ -46,11 +46,6 @@
 	$(document).ready(function () {
 		buscar('{{ $entidad }}');
 		init(IDFORMBUSQUEDA+'{{ $entidad }}', 'B', '{{ $entidad }}');
-		$(IDFORMBUSQUEDA + '{{ $entidad }} :input[id="login"]').keyup(function (e) {
-			var key = window.event ? e.keyCode : e.which;
-			if (key == '13') {
-				buscar('{{ $entidad }}');
-			}
-		});
+		$(IDFORMBUSQUEDA+'{{ $entidad }} :input[id="tipousuario_id"]').selectpicker();
 	});
 </script>

@@ -21,6 +21,7 @@ class PersonaSeeder extends Seeder
 					'dni'     		  => "73700450",
 					'direccion'       => "Calle Circunvalación 150 - Chiclayo",
 					'referencia'      => "Entre Balta y Chiclayo",
+					'local_id'        => 1,
 					'created_at'      => $now,
 					'updated_at'      => $now
 				)

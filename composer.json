@@ -1,35 +1,45 @@
 {
     "name": "laravel/laravel",
+    "type": "project",
     "description": "The Laravel Framework.",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
-    "type": "project",
     "require": {
-        "php": ">=5.6.4",
-        "elibyy/tcpdf-laravel": "5.4.*",
-        "google/apiclient": "^2.12",
-        "intervention/image": "^2.4",
-        "jenssegers/date": "^3.2",
-        "laravel/framework": "5.4.*",
-        "laravel/tinker": "~1.0",
-        "laravelcollective/html": "^5.3.0",
-        "maatwebsite/excel": "~2.1.0",
-        "twilio/sdk": "^6.2",
-        "yajra/laravel-oci8": "5.4.*"
+        "php": "^7.3|^8.0",
+        "elibyy/tcpdf-laravel": "^8.1",
+        "fideloper/proxy": "^4.4",
+        "fruitcake/laravel-cors": "^2.0",
+        "guzzlehttp/guzzle": "^7.3",
+        "intervention/image": "^2.5",
+        "jenssegers/date": "^4.0",
+        "laravel/framework": "^8.35",
+        "laravel/jetstream": "^2.3",
+        "laravel/sanctum": "^2.6",
+        "laravel/tinker": "^2.6",
+        "laravelcollective/html": "^6.2",
+        "livewire/livewire": "^2.0",
+        "maatwebsite/excel": "^3.1",
+        "phpoffice/phpspreadsheet": "1.16.*",
+        "twilio/sdk": "^6.20"
     },
     "require-dev": {
-        "fzaninotto/faker": "~1.4",
-        "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.7"
+        "facade/ignition": "^2.7",
+        "fakerphp/faker": "^1.14",
+        "laravel/sail": "^1.4",
+        "mockery/mockery": "^1.4",
+        "nunomaduro/collision": "^5.3",
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "classmap": [
             "database",
-            "database/seeds",
+            "database/seeders",
             "database/factories"
         ],
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
             "utils/Twilio.php"
@@ -41,23 +51,35 @@
         }
     },
     "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
         "post-root-package-install": [
-            "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
-            "php artisan key:generate"
+            "@php artisan key:generate --ansi"
         ],
         "post-install-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "php artisan optimize"
+            "php artisan optimize:clear"
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan optimize"
+            "php artisan optimize:clear"
         ]
     },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
     "config": {
+        "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
