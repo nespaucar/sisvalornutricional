@@ -1,0 +1,19 @@
+--- MIGRATIONS ---
+
+$table->increments('id');
+
+$table->string('name', 100)
+		->default('fa fa-bank')
+		->nullable();
+
+$table->integer('menuoptioncategory_id')
+		->unsigned()
+		->nullable();
+
+$table->char('state', 1)
+		->default('H')
+		->nullable();
+
+$table->timestamps();
+
+$table->softDeletes();
