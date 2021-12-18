@@ -53,7 +53,7 @@ class RecuperarContrasenaController extends Controller
                                                 <tr style="background-color: #658EC6;"> 
                                                     <td align="center">
                                                         <a href="https://munisanignacio.gob.pe/" target="_blank">
-                                                            <img src="https://munisanignacio.gob.pe/wp-content/uploads/2019/12/cropped-cropped-logompsi-1-768x180.png" alt="" height="50%" style="display: block; padding: 20px;"/> 
+                                                            <img src="assets/images/logo.png" alt="" height="50%" style="display: block; padding: 20px;"/> 
                                                         </a>                                        
                                                     </td> 
                                                 </tr> 

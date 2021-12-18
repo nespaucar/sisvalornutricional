@@ -47,7 +47,7 @@
 
         <link rel="shortcut icon" href="{{ asset('assets/images/icono.ico') }}">
 
-        <title>Sistema de Gestión de Pagos</title>
+        <title>Calculadora Nutricional</title>
 
         {!! Html::style('plugins/switchery/switchery.min.css') !!}
 
