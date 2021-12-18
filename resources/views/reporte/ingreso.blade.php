@@ -64,8 +64,8 @@
 
 			?>
 			<td style="border: 1px solid #000000; color: {{ $class }};"><strong>{{ $estado }}</strong></td>
-			<td style="border: 1px solid #000000;">{{ '(' . $value->mercader->persona->dni . ') ' . $value->mercader->persona->nombres }}</td>
-			<td style="border: 1px solid #000000;">{{ '(' . $value->comisionista->persona->dni . ') ' . $value->comisionista->persona->nombres }}</td>
+			<td style="border: 1px solid #000000;">{{ '(' . $value->mercader->persona->dni . ') ' . $value->mercader->persona->nombre }}</td>
+			<td style="border: 1px solid #000000;">{{ '(' . $value->comisionista->persona->dni . ') ' . $value->comisionista->persona->nombre }}</td>
 		</tr>
 		<?php
 		$contador = $contador + 1;

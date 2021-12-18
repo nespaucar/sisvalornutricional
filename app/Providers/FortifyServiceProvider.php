@@ -55,11 +55,11 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::authenticateUsing(function (Request $request) {
             $user = Usuario::where('login', $request->login)->first();
             if ($user && Hash::check($request->password, $user->password)) {
-                $bitacoraant = Bitacora::where('descripcion', '=', 'Se INICIA SESIÓN el ' . $user->usertype->nombre . ' ' . $user->persona->nombres . ' a las ' . date('H:i:s') . ' del ' . date('d/m/Y'))->first();
+                $bitacoraant = Bitacora::where('descripcion', '=', 'Se INICIA SESIÓN el ' . $user->usertype->nombre . ' ' . $user->persona->nombre . ' a las ' . date('H:i:s') . ' del ' . date('d/m/Y'))->first();
                 if($bitacoraant === NULL) {
                     $bitacora = new Bitacora();
                     $bitacora->fecha = date('Y-m-d');
-                    $bitacora->descripcion = 'Se INICIA SESIÓN el ' . $user->usertype->nombre . ' ' . $user->persona->nombres . ' a las ' . date('H:i:s') . ' del ' . date('d/m/Y');
+                    $bitacora->descripcion = 'Se INICIA SESIÓN el ' . $user->usertype->nombre . ' ' . $user->persona->nombre . ' a las ' . date('H:i:s') . ' del ' . date('d/m/Y');
                     $bitacora->tabla = 'SESIÓN';
                     $bitacora->tabla_id = $user->id;
                     $bitacora->usuario_id = $user->id;

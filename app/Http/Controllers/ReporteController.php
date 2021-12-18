@@ -42,10 +42,10 @@ class ReporteController extends Controller
         $listar  = Libreria::getParam($request->input('listar'), 'NO');
         $ruta    = $this->rutas;
         $cboPersonas = array('' => '-- Todos --');
-        $personas = Persona::select('usuario.id', 'persona.nombres', 'persona.dni')->join('usuario', 'usuario.persona_id', 'persona.id')->get();
+        $personas = Persona::select('usuario.id', 'persona.nombre', 'persona.dni')->join('usuario', 'usuario.persona_id', 'persona.id')->get();
 
        	foreach ($personas as $per) {
-       		$cboPersonas += array($per->id => $per->dni . ' - ' . $per->nombres);
+       		$cboPersonas += array($per->id => $per->dni . ' - ' . $per->nombre);
        	}
 
         return view($this->folderview.'.bitacora.admin')->with(compact('title', 'entidad', 'listar', 'ruta', 'cboPersonas'));
@@ -104,14 +104,14 @@ class ReporteController extends Controller
         $ruta    = $this->rutas;
         $cboMercaderes = array('' => '-- Todos --');
         $cboConceptos = array('' => '-- Todos --');
-        $mercaderes = Persona::select('mercader.id', 'nombres', 'dni')
+        $mercaderes = Persona::select('mercader.id', 'nombre', 'dni')
             ->join('mercader', 'mercader.persona_id', 'persona.id')
             ->where('tipo', '=', 'V') //Mercaderes
             ->get();
         $conceptos = Conceptopago::select('id', 'nombre')->get();
 
         foreach ($mercaderes as $per) {
-            $cboMercaderes += array($per->id => $per->dni . ' - ' . $per->nombres);
+            $cboMercaderes += array($per->id => $per->dni . ' - ' . $per->nombre);
         }
 
         foreach ($conceptos as $con) {
@@ -166,12 +166,12 @@ class ReporteController extends Controller
         $cboMercaderes = array('' => '-- Todos --');
         $cboComisionistas = array('' => '-- Todos --');
         $cboConceptos = array('' => '-- Todos --');
-        $mercaderes = Persona::select('mercader.id', 'nombres', 'dni')
+        $mercaderes = Persona::select('mercader.id', 'nombre', 'dni')
             ->join('mercader', 'mercader.persona_id', 'persona.id')
             ->where('tipo', '=', 'V') //Mercaderes
             ->get();
 
-        $comisionistas = Persona::select('comisionista.id', 'nombres', 'dni')
+        $comisionistas = Persona::select('comisionista.id', 'nombre', 'dni')
             ->join('comisionista', 'comisionista.persona_id', 'persona.id')
             ->where('tipo', '=', 'C') //Cobradores
             ->get();
@@ -179,11 +179,11 @@ class ReporteController extends Controller
         $conceptos = Conceptopago::select('id', 'nombre')->get();
 
         foreach ($mercaderes as $per) {
-            $cboMercaderes += array($per->id => $per->dni . ' - ' . $per->nombres);
+            $cboMercaderes += array($per->id => $per->dni . ' - ' . $per->nombre);
         }
 
         foreach ($comisionistas as $per) {
-            $cboComisionistas += array($per->id => $per->dni . ' - ' . $per->nombres);
+            $cboComisionistas += array($per->id => $per->dni . ' - ' . $per->nombre);
         }
 
         foreach ($conceptos as $con) {
@@ -261,13 +261,13 @@ class ReporteController extends Controller
         $ruta    = $this->rutas;
         $cboMercaderes = array('' => '-- Selecciona --');
         $cboConceptos = array('' => '-- Selecciona --');
-        $mercaderes = Persona::select('mercader.id', 'nombres', 'dni')
+        $mercaderes = Persona::select('mercader.id', 'nombre', 'dni')
             ->join('mercader', 'mercader.persona_id', 'persona.id')
             ->where('tipo', '=', 'V') //Mercaderes
             ->get();
 
         foreach ($mercaderes as $per) {
-            $cboMercaderes += array($per->id => $per->dni . ' - ' . $per->nombres);
+            $cboMercaderes += array($per->id => $per->dni . ' - ' . $per->nombre);
         }
 
         return view($this->folderview.'.estadocuenta.admin')->with(compact('title', 'entidad', 'listar', 'ruta', 'cboMercaderes', 'cboConceptos'));

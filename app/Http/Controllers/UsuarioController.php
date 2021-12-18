@@ -98,7 +98,7 @@ class UsuarioController extends Controller {
         $listar     = Libreria::getParam($request->input('listar'), 'NO');
         $reglas = array(
             'usertype_id' => 'required|integer|exists:usertype,id,deleted_at,NULL',            
-            'nombres'    => 'required|max:100',
+            'nombre'    => 'required|max:100',
             'telefono' => 'required|max:9',            
             'email' => 'required|email|max:100|unique:usuario,email,NULL,id,deleted_at,NULL',
             'login' => 'required|max:20|unique:usuario,login,NULL,id,deleted_at,NULL',
@@ -113,7 +113,7 @@ class UsuarioController extends Controller {
 
             $persona = new Persona();
             $persona                  = new Persona();
-            $persona->nombres         = $request->input('nombres');
+            $persona->nombre          = $request->input('nombre');
             $persona->dni             = $request->input('login');
             $persona->tipo            = 'A'; // Comisionista
             $persona->usuario_id      = 0;
@@ -173,7 +173,7 @@ class UsuarioController extends Controller {
             return $existe;
         }
         $reglas = array(
-            'nombres'    => 'required|max:100',
+            'nombre'    => 'required|max:100',
             'telefono' => 'required|max:9',
             'email' => 'required|email|max:100|unique:usuario,email,'.$id.',id,deleted_at,NULL',
             'login'=> 'required|max:20|unique:usuario,login,'.$id.',id,deleted_at,NULL',
@@ -195,7 +195,7 @@ class UsuarioController extends Controller {
             $usuario->save();
 
             $persona              = $usuario->persona;
-            $persona->nombres     = $request->input('nombres');
+            $persona->nombre      = $request->input('nombre');
             $persona->dni         = $request->input('login');
             $persona->telefono    = $request->input('telefono');
             $persona->direccion   = $request->input('direccion');

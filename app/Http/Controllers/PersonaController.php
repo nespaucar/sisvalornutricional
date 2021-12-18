@@ -19,18 +19,18 @@ class PersonaController extends Controller
     public function personasautocompleting($searching) {
         $user      = Auth::user();
         $local_id  = $user->persona->local_id;
-        $resultado = Persona::select('nombres', 'id', 'dni')
-            ->where('nombres', 'LIKE', '%'.$searching.'%')
+        $resultado = Persona::select('nombre', 'id', 'dni')
+            ->where('nombre', 'LIKE', '%'.$searching.'%')
             ->where('local_id', '=', $local_id)
             ->where('tipo', '=', 'A') // Solo administradores
-            ->orderBy('nombres', 'ASC');
+            ->orderBy('nombre', 'ASC');
         $list      = $resultado->get();
         $data = array();
         foreach ($list as $key => $value) {
             $data[] = array(
-                'label' => $value->nombres,
+                'label' => $value->nombre,
                 'id'    => $value->id,
-                'value' => $value->nombres,
+                'value' => $value->nombre,
                 'dni'   => $value->dni,
             );
         }
@@ -39,16 +39,16 @@ class PersonaController extends Controller
 
     public function buscarDNIMercader(Request $request) {
         $dni = $request->input('dni');
-        $resultado = Persona::select('nombres', 'id')
+        $resultado = Persona::select('nombre', 'id')
             ->where('dni', '=', $dni)
             ->where('tipo', '=', 'V') // Solo mercaderes
             ->first();
         $estado = 'ERROR';
-        $nombres = '';
+        $nombre = '';
         $id = 0;
         if($resultado!==NULL) {
             $estado = 'OK';
-            $nombres = $resultado->nombres;            
+            $nombre = $resultado->nombre;            
             $mercader = Mercader::where('persona_id', '=', $resultado->id)->first();
             if($mercader!==NULL) {
                 $id = $mercader->id;
@@ -56,7 +56,7 @@ class PersonaController extends Controller
         }
         $retorno = array(
             'estado' => $estado,
-            'nombres' => $nombres,
+            'nombre' => $nombre,
             'id' => $id,
         );
         return json_encode($retorno);

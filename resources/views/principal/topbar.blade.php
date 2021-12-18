@@ -9,8 +9,8 @@ $user                  = Auth::user();
 session(['usertype_id' => $user->usertype_id]);
 $tipousuario_id        = session('usertype_id');
 $menu2                 = generarMenuHorizontal($tipousuario_id);
-$person                = Persona::find($user->persona_id);
-$nombrelocal           = $person->local->descripcion;
+$persona               = Persona::find($user->persona_id);
+$nombrelocal           = $persona->local->descripcion;
 $date                  = Date::instance($user->created_at)->format('l j F Y');
 
 ?>
@@ -70,14 +70,14 @@ $date                  = Date::instance($user->created_at)->format('l j F Y');
                                             <img src="{{ asset('avatar/' . $user->avatar) }}?t={{time()}}" alt="user-img" class="img-circle" height="40px" width="40px" style="border-color: red; border: #3F51B5 2px solid;">
                                         </font>
                                         <font class="hidden-xs">
-                                            {{explode(' ', $person->nombres)[0]}} - {{$user->usertype->nombre}}
+                                            {{explode(' ', $persona->nombre)[0]}} - {{$user->usertype->nombre}}
                                         </font>
                                         <font class="hidden-sm hidden-md hidden-lg">
-                                            {{explode(' ', $person->nombres)[0]}}
+                                            {{explode(' ', $persona->nombre)[0]}}
                                         </font>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-lg">
-                                        <li class="text-center notifi-title">{{$person->nombres}} - {{$user->usertype->nombre}}</li>
+                                        <li class="text-center notifi-title">{{$persona->nombre}} - {{$user->usertype->nombre}}</li>
                                         <li class="text-center notifi-title" id="imgProfile2">
                                             <img style="cursor:pointer" onclick="cargarRuta('actualizardatos', 'container');" src="{{ asset('avatar/' . $user->avatar) }}?t={{time()}}" alt="user-img" class="img-circle" height="90px" width="90px" style="border-color: red; border: #3F51B5 2px solid;">
                                         </li>

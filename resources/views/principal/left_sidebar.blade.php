@@ -10,7 +10,7 @@ $tipousuario_id        = session('usertype_id');
 $menu                  = generarMenu($tipousuario_id);
 $usuario = Usuario::find($user->id);
 $persona = Persona::find($user->persona_id);
-$nombrecompleto = $persona->nombres." ".$persona->apellidopaterno;
+$nombrecompleto = $persona->nombre;
 ?>
 
 <div class="left side-menu">

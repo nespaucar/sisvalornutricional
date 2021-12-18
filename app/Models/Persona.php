@@ -28,7 +28,7 @@ class Persona extends Model
         return $query->where(function($subquery) use($nombre, $dni, $usertype_id, $local_id)
         {
             if (!is_null($nombre)) {
-                $subquery->where(DB::raw('CONCAT(persona.apellidopaterno, " ", persona.apellidomaterno, " ", persona.nombres)'), 'LIKE', '%'.$nombre.'%');
+                $subquery->where(DB::raw('CONCAT(persona.nombre)'), 'LIKE', '%'.$nombre.'%');
             }
             if (!is_null($dni)) {
                 $subquery->where('dni', 'LIKE', '%'.$dni.'%');
@@ -44,6 +44,6 @@ class Persona extends Model
         ->join("usertype", "usuario.usertype_id", "=", "usertype.id")
         ->where("usertype_id", "=", $usertype_id) //2 ALUMNO, 5 APODERADO
         ->select("persona.*", "usuario.state as estado", "usuario.email")
-        ->orderBy(DB::raw('CONCAT(persona.apellidopaterno, " ", persona.apellidomaterno, " ", persona.nombres)'), 'ASC');
+        ->orderBy(DB::raw('CONCAT(persona.nombre)'), 'ASC');
     }
 }

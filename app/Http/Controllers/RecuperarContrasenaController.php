@@ -144,7 +144,7 @@ class RecuperarContrasenaController extends Controller
 
 		    	$bitacora = new Bitacora();
 	            $bitacora->fecha = date('Y-m-d');
-	            $bitacora->descripcion = 'Se RECUPERA CONTRASEÑA de usuario ' . $user->persona->nombres;
+	            $bitacora->descripcion = 'Se RECUPERA CONTRASEÑA de usuario ' . $user->persona->nombre;
 	            $bitacora->tabla = 'USUARIO';
 	            $bitacora->tabla_id = $user->id;
 	            $bitacora->usuario_id = $user->id;

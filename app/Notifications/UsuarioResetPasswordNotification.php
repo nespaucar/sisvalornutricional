@@ -48,7 +48,7 @@ class UsuarioResetPasswordNotification extends Notification
     {
         if($notifiable->usertype_id == 1 ||$notifiable->usertype_id == 2 || $notifiable->usertype_id == 3){
             $alumno = Alumno::find($notifiable->alumno_id);
-            $saludo = "Hola " . $alumno->nombres . "!";
+            $saludo = "Hola " . $alumno->nombre . "!";
         }else{
             $empresa = Empresa::find($notifiable->empresa_id);
             $saludo = "Hola " . $empresa->razonsocial . "!";

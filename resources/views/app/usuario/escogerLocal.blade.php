@@ -2,7 +2,7 @@
 	use Illuminate\Support\Facades\Auth;
 	$user          = Auth::user();
 	$persona       = $user->persona;
-	$nombrepersona = $persona->apellidopaterno.' '.$persona->apellidomaterno.' '.$persona->nombres;
+	$nombrepersona = $persona->nombre;
 ?>
 <div class="row">
     <div class="col-sm-12">

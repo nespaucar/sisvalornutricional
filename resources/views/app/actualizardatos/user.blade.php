@@ -41,9 +41,9 @@ $avatar = $user->avatar;
 			{!! Form::model($persona, $formData) !!}	
 			{!! Form::hidden('listar', $listar, array('id' => 'listar')) !!}
 			<div class="form-group">
-				{!! Form::label('nombres', 'Nombres', array('class' => 'col-lg-3 col-md-3 col-sm-3 control-label requerido')) !!}
+				{!! Form::label('nombre', 'Nombre', array('class' => 'col-lg-3 col-md-3 col-sm-3 control-label requerido')) !!}
 				<div class="col-lg-9 col-md-9 col-sm-9">
-					{!! Form::text('nombres', null, array('disabled','class' => 'form-control input-xs', 'placeholder' => 'Ingrese nombre')) !!}
+					{!! Form::text('nombre', null, array('disabled','class' => 'form-control input-xs', 'placeholder' => 'Ingrese nombre')) !!}
 				</div>
 			</div>
 

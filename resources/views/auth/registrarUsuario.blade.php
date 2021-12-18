@@ -27,37 +27,13 @@
                     </div>
                 </div>
 
-                <div class="form-group{{ $errors->has('nombres') ? ' has-error' : '' }}">
+                <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">
                     <div class="col-xs-12">
-                        <input name="nombres" class="form-control" type="text" value="{{ $nombres or old('nombres') }}" placeholder="Nombres">
+                        <input name="nombre" class="form-control" type="text" value="{{ $nombre or old('nombre') }}" placeholder="Nombre">
                         <i class="md md-account-box form-control-feedback l-h-34"></i>
-                        @if ($errors->has('nombres'))
+                        @if ($errors->has('nombre'))
                             <span class="help-block">
-                                <strong>{{ $errors->first('nombres') }}</strong>
-                            </span>
-                        @endif
-                    </div>
-                </div> 
-
-                <div class="form-group{{ $errors->has('apellidopaterno') ? ' has-error' : '' }}">
-                    <div class="col-xs-12">
-                        <input name="apellidopaterno" class="form-control" type="text" value="{{ $apellidopaterno or old('apellidopaterno') }}" placeholder="Apellido Paterno">
-                        <i class="md md-account-box form-control-feedback l-h-34"></i>
-                        @if ($errors->has('apellidopaterno'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('apellidopaterno') }}</strong>
-                            </span>
-                        @endif
-                    </div>
-                </div>  
-
-                <div class="form-group{{ $errors->has('apellidomaterno') ? ' has-error' : '' }}">
-                    <div class="col-xs-12">
-                        <input name="apellidomaterno" class="form-control" type="text" value="{{ $apellidomaterno or old('apellidomaterno') }}" placeholder="Apellido Materno">
-                        <i class="md md-account-box form-control-feedback l-h-34"></i>
-                        @if ($errors->has('apellidomaterno'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('apellidomaterno') }}</strong>
+                                <strong>{{ $errors->first('nombre') }}</strong>
                             </span>
                         @endif
                     </div>

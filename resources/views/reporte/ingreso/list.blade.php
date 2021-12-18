@@ -68,8 +68,8 @@
 
 				?>
 				<td class="{{ $class }}"><strong>{{ $estado }}</strong></td>				
-				<td>{{ '(' . $value->mercader->persona->dni . ') ' . $value->mercader->persona->nombres }}</td>
-				<td>{{ '(' . $value->comisionista->persona->dni . ') ' . $value->comisionista->persona->nombres }}</td>
+				<td>{{ '(' . $value->mercader->persona->dni . ') ' . $value->mercader->persona->nombre }}</td>
+				<td>{{ '(' . $value->comisionista->persona->dni . ') ' . $value->comisionista->persona->nombre }}</td>
 			</tr>
 			<?php
 			$contador = $contador + 1;

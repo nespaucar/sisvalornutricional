@@ -23,7 +23,7 @@
 			<td style="border: 1px solid #000000;">{{ $value->descripcion }}</td>
 			<td style="border: 1px solid #000000;">{{ $value->tabla }}</td>
 			<td style="border: 1px solid #000000;">{{ $value->tabla_id }}</td>
-			<td style="border: 1px solid #000000;">{{ $value->usuario->persona->nombres }}</td>
+			<td style="border: 1px solid #000000;">{{ $value->usuario->persona->nombre }}</td>
 		</tr>
 		<?php
 		$contador = $contador + 1;

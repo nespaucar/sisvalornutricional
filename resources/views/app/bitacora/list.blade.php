@@ -25,7 +25,7 @@
 					<td>{{ $value->tabla }}</td>
 					<td>{{ $value->tabla_id }}</td>
 				@endif
-				<td>{{ $value->usuario->persona->nombres }}</td>
+				<td>{{ $value->usuario->persona->nombre }}</td>
 			</tr>
 			<?php
 			$contador = $contador + 1;

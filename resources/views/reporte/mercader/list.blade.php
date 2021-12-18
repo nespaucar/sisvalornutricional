@@ -27,7 +27,7 @@
 			@foreach ($lista as $key => $value)
 			<tr>
 				<td>{{ $contador }}</td>
-				<td>{{ $value->mercader->persona->dni . ' - ' . $value->mercader->persona->nombres }}</td>
+				<td>{{ $value->mercader->persona->dni . ' - ' . $value->mercader->persona->nombre }}</td>
 				<td style="font-weight: bold;" class="{{ $value->mercader->state === 'A' ? 'text-success' : 'text-danger' }}">{{ $value->mercader->state === 'A' ? 'ACTIVO' : 'INACTIVO' }}</td>
 				<td>{{ $value->mercader->persona->direccion === NULL ? '-' : $value->mercader->persona->direccion }}</td>
 				<td>{{ $value->mercader->persona->telefono === NULL ? '-' : $value->mercader->persona->telefono }}</td>

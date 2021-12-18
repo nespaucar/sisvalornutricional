@@ -20,7 +20,7 @@
     <tr>
     	<td align="center" colspan="2"><img src="assets/images/users/avatar-2.jpg" width="90" height="100" /></td>
     	<td align="left" style="font-size: 10px" colspan="3"><br><br>
-    		<b>Nombre:</b> {{ $alumno->nombres }} {{ $alumno->apellidopaterno }} {{ $alumno->apellidomaterno }} <br>
+    		<b>Nombre:</b> {{ $alumno->nombre }} <br>
     		<b>Email:</b> {{ $alumno->email }} <br>
     		<b>Fecha de Nacimiento:</b> {{ Date::parse($alumno->fechanacimiento)->format('d/m/y') }} <br>
     		<b>Dirección:</b> {{ $alumno->direccion }} <br>

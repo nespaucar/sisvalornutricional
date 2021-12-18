@@ -85,11 +85,12 @@ class ActualizarDatosController extends Controller
             $validacion = Validator::make($request->all(),$reglas);
             if ($validacion->fails()) {
                 return $validacion->messages()->toJson();
-            } 
+            }
             $error = DB::transaction(function() use($request, $id){
                 $user               = Auth::user();
                 $persona            = Persona::find($id);
                 $persona->direccion = $request->input('direccion');
+                $persona->email     = $request->input('email');
                 $usuario            = Usuario::find($user->id);
                 $usuario->email     = $request->input('email');
                 $persona->save();
@@ -97,36 +98,37 @@ class ActualizarDatosController extends Controller
 
                 $bitacora = new Bitacora();
                 $bitacora->fecha = date('Y-m-d');
-                $bitacora->descripcion = 'Se ACTUALIZAN LOS DATOS del ' . ($persona->tipo==='A'?'ADMINISTRADOR':($persona->tipo==='C'?'COMISIONISTA':'VENDEDOR')) . ' ' . $persona->nombres;
+                $bitacora->descripcion = 'Se ACTUALIZAN LOS DATOS del ' . ($persona->tipo==='A'?'ADMINISTRADOR':($persona->tipo==='C'?'COMISIONISTA':'VENDEDOR')) . ' ' . $persona->nombre;
                 $bitacora->tabla = 'PERSONA';
                 $bitacora->tabla_id = $persona->id;
                 $bitacora->usuario_id = $user->id;
                 $bitacora->save();
+
+                $path = '';
+            
+                if ($request->hasFile('imageProfile')){
+                    if ($request->file('imageProfile')->isValid()) {
+
+                        $user = Auth::user();
+
+                        if(\File::exists('avatar/'.$usuario->avatar) && $usuario->avatar !== 'admin.jpg') {
+                            \File::delete('avatar/'.$usuario->avatar);
+                        }
+                        
+                        $filename = $user->id.'_'.time().'.'.$request->imageProfile->getClientOriginalExtension();
+                        $path = public_path('avatar/'.$filename);
+
+                        $file = $request->file('imageProfile');
+                        Image::make($file)->fit(144, 144);//->save($path);
+                        $file->move('avatar', $filename);
+                        
+                        $usuario->avatar = $filename;
+                        $usuario->save();
+                    }
+                }
             });
 
-            $path = '';
             
-            if ($request->hasFile('imageProfile')){
-                if ($request->file('imageProfile')->isValid()) {
-
-                    $user = Auth::user();
-                    $usuario = Usuario::find($user->id);
-
-                    if(\File::exists('avatar/'.$usuario->avatar) && $usuario->avatar !== 'admin.jpg') {
-                        \File::delete('avatar/'.$usuario->avatar);
-                    }
-                    
-                    $filename = $user->id.'_'.time().'.'.$request->imageProfile->getClientOriginalExtension();
-                    $path = public_path('avatar/'.$filename);
-
-                    $file = $request->file('imageProfile');
-                    Image::make($file)->fit(144, 144);//->save($path);
-                    $file->move('avatar', $filename);
-                    
-                    $usuario->avatar = $filename;
-                    $usuario->save();
-                }
-            }
 
             return is_null($error) ? 'OK' : $error;
 

@@ -16,6 +16,7 @@ class UserSeeder extends Seeder
 				'avatar'         => 'admin.jpg',
 				'password'       => Hash::make('123'),
 				'state'          => 'A',
+				'email'          => 'nespaucar@gmail.com',
 				'persona_id'     => 1,
 				'local_id'       => 1,
 				'usertype_id'    => 1,

@@ -22,7 +22,7 @@
 		@foreach ($lista as $key => $value)
 		<tr>
 			<td style="border: 1px solid #000000;">{{ $contador }}</td>
-			<td style="border: 1px solid #000000;">{{ $value->mercader->persona->dni . ' - ' . $value->mercader->persona->nombres }}</td>
+			<td style="border: 1px solid #000000;">{{ $value->mercader->persona->dni . ' - ' . $value->mercader->persona->nombre }}</td>
 			<td style="border: 1px solid #000000; font-weight: bold; color: {{ $value->mercader->state === 'A' ? '#54B359' : '#EB575D' }}">{{ $value->mercader->state === 'A' ? 'ACTIVO' : 'INACTIVO' }}</td>
 			<td style="border: 1px solid #000000;">{{ $value->mercader->persona->direccion === NULL ? '-' : $value->mercader->persona->direccion }}</td>
 			<td style="border: 1px solid #000000;">{{ $value->mercader->persona->telefono === NULL ? '-' : $value->mercader->persona->telefono }}</td>

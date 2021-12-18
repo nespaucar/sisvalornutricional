@@ -64,9 +64,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'nombres' => 'required|string|max:100',
-            'apellidopaterno' => 'required|string|max:100',
-            'apellidomaterno' => 'required|string|max:100',
+            'nombre' => 'required|string|max:100',
             'dni' => 'required|string|digits:8|unique:persona',
             'direccion' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:usuario',
@@ -80,9 +78,7 @@ class RegisterController extends Controller
         
         $error = DB::transaction(function() use($request){
             $persona = new Persona();
-            $persona->nombres = $request['nombres'];
-            $persona->apellidopaterno = $request['apellidopaterno'];
-            $persona->apellidomaterno = $request['apellidomaterno'];
+            $persona->nombre = $request['nombre'];
             $persona->dni = $request['dni'];
             $persona->direccion = $request['direccion'];
             $persona->save();

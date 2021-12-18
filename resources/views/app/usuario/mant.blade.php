@@ -7,7 +7,7 @@ $email = '';
 $direccion = '';
 
 if($usuario !== NULL) {
-	$nombrepersona = $usuario->persona->nombres;
+	$nombrepersona = $usuario->persona->nombre;
 	$persona_id = $usuario->persona_id;
 	$telefono = $usuario->persona->telefono;
 	$email = $usuario->persona->email;
@@ -29,9 +29,9 @@ if($usuario !== NULL) {
 	</div>
 </div>
 <div class="form-group">
-	{!! Form::label('nombres', 'Nombre', array('class' => 'col-lg-4 col-md-4 col-sm-4 control-label requerido')) !!}
+	{!! Form::label('nombre', 'Nombre', array('class' => 'col-lg-4 col-md-4 col-sm-4 control-label requerido')) !!}
 	<div class="col-lg-8 col-md-8 col-sm-8">
-		{!! Form::text('nombres', $nombrepersona, array('class' => 'form-control input-xs', 'id' => 'nombres', 'placeholder' => 'Escribe Nombre de Persona', 'maxlength' => '100')) !!}
+		{!! Form::text('nombre', $nombrepersona, array('class' => 'form-control input-xs', 'id' => 'nombre', 'placeholder' => 'Escribe Nombre de Persona', 'maxlength' => '100')) !!}
 	</div>
 </div>
 <div class="form-group">

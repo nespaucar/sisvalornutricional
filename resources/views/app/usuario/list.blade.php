@@ -19,7 +19,7 @@
 			@foreach ($lista as $key => $value)
 			<tr>
 				<td>{{ $contador }}</td>
-				<td>{{ $value->persona->nombres }}</td>
+				<td>{{ $value->persona->nombre }}</td>
 				<td>{{ $value->login }}</td>
 				<td>{{ $value->usertype->nombre }}</td>
 				<td class="text-center">{!! Form::button('<div class="glyphicon glyphicon-pencil"></div>', array('onclick' => 'modal (\''.URL::route($ruta["edit"], array($value->id, 'listar'=>'SI')).'\', \''.$titulo_modificar.'\', this);', 'class' => 'btn btn-xs btn-warning waves-effect waves-light')) !!}</td>

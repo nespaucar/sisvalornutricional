@@ -17,7 +17,7 @@
 						->first();
 			?>
 			@if($detalleconceptopago === NULL)
-				<h3>El concepto de Pago no le corresponde al mercader {{$mercader->persona->nombres}}.</h3>
+				<h3>El concepto de Pago no le corresponde al mercader {{$mercader->persona->nombre}}.</h3>
 			@else
 				<table style="width: 100%;">
 					@for($i = 0; $i < 10; $i++)

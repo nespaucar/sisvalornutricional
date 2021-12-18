@@ -90,6 +90,6 @@ class EstadoCuentaExport implements
         $sheet->mergeCells('B9:G9');
         $sheet->getCellByColumnAndRow(1, 7)->setValue('REPORTE DE ESTADO DE CUENTA - SISTEMA DE PAGOS');
         $sheet->getCellByColumnAndRow(1, 9)->setValue('Mercader');
-        $sheet->getCellByColumnAndRow(2, 9)->setValue($this->mercader->persona->nombres);
+        $sheet->getCellByColumnAndRow(2, 9)->setValue($this->mercader->persona->nombre);
     }
 }

@@ -32,7 +32,7 @@
 						->first();
 			?>
 			@if($detalleconceptopago === NULL)
-				<h3 class="text-danger">El concepto de Pago no le corresponde al mercader {{$mercader->persona->nombres}}.</h3>
+				<h3 class="text-danger">El concepto de Pago no le corresponde al mercader {{$mercader->persona->nombre}}.</h3>
 				<script>
 					$(document).ready(function() {
 						$('#btnExcel').attr('disabled', true);

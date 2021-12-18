@@ -18,7 +18,9 @@ class CreateTableUsuario extends Migration
                 ->nullable();
             $table->char('state', 1)
                 ->default('H')
-                ->nullable();          
+                ->nullable();
+            $table->string('email', 120)
+                ->nullable();         
             $table->integer('usertype_id')
                 ->unsigned()
                 ->nullable();
