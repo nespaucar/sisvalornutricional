@@ -4,12 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Local extends Model
 {
     use SoftDeletes;
-    use HasFactory;
     protected $table = 'local';
     protected $dates = ['deleted_at'];
 

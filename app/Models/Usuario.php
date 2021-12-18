@@ -6,13 +6,11 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Notifications\UsuarioResetPasswordNotification;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Usuario extends Authenticatable
 {
     use Notifiable;
     use SoftDeletes;
-    use HasFactory;
     protected $table = 'usuario';
 
     protected $fillable = [
@@ -25,21 +23,16 @@ class Usuario extends Authenticatable
 
     public function scopelistar($query, $login, $tipousuario_id)
     {
-        $query->join('persona', 'persona.id', 'usuario.persona_id');
         return $query->where(function($subquery) use($login, $tipousuario_id)
-        {
-            if (!is_null($login)) {
-                $subquery->where(function($subq) use ($login) {
-                    $subq->orWhere('login', 'LIKE', '%'.$login.'%');
-                    $subq->orWhere('nombres', 'LIKE', '%'.$login.'%');
-                });                    
-            }
-            if (!is_null($tipousuario_id)) {
-                $subquery->where('usertype_id', '=', $tipousuario_id);
-            }
-        })
-        ->select('usuario.*')
-        ->orderBy('login', 'ASC');
+                    {
+                        if (!is_null($login)) {
+                            $subquery->where('login', 'LIKE', '%'.$login.'%');
+                        }
+                        if (!is_null($tipousuario_id)) {
+                            $subquery->where('usertype_id', '=', $tipousuario_id);
+                        }
+                    })
+                    ->orderBy('login', 'ASC');
     }
 
     public function usertype()
@@ -54,5 +47,9 @@ class Usuario extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
       $this->notify(new UsuarioResetPasswordNotification($token));
+    }
+
+    public function local() {
+        return $this->belongsTo('App\Models\Local', 'local_id');
     }
 }

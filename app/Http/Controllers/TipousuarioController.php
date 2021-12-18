@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 
 use Validator;
 use App\Http\Requests;
-use App\Usertype;
-use App\Permission;
+use App\Models\Usertype;
+use App\Models\Permission;
 use App\Librerias\Libreria;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;

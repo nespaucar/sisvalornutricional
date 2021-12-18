@@ -9,6 +9,7 @@
         "elibyy/tcpdf-laravel": "^8.1",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
+        "google/apiclient": "^2.12",
         "guzzlehttp/guzzle": "^7.3",
         "intervention/image": "^2.5",
         "jenssegers/date": "^4.0",

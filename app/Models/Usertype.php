@@ -4,12 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Usertype extends Model
 {
 	use SoftDeletes;
-	use HasFactory;
     protected $table = 'usertype';
     protected $dates = ['deleted_at'];
 
@@ -26,7 +24,7 @@ class Usertype extends Model
 
     public function users()
 	{
-		return $this->hasMany('App\Models\Usuario');
+		return $this->hasMany('App\Models\User');
 	}
 
 	public function permissions()

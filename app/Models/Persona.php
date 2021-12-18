@@ -23,14 +23,6 @@ class Persona extends Model
         return $this->belongsTo('App\Models\Usuario', 'usuario_id');
     }
 
-    public function apoderados(){
-        return $this->hasMany('App\Models\AlumnoApoderado', 'alumno_id');
-    }
-
-    public function alumnos(){
-        return $this->hasMany('App\Models\AlumnoApoderado', 'apoderado_id');
-    }
-
     public function scopelistarpersonas($query, $nombre, $dni, $usertype_id, $local_id)
     {
         return $query->where(function($subquery) use($nombre, $dni, $usertype_id, $local_id)

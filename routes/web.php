@@ -120,6 +120,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('exportaringresoreporteP', 'PdfController@exportaringresoreporteP')->name('pdf.exportaringresoreporteP');
     Route::get('exportarestadocuentareporteE', 'ExcelController@exportarestadocuentareporteE')->name('excel.exportarestadocuentareporteE');
     Route::get('exportarestadocuentareporteP', 'PdfController@exportarestadocuentareporteP')->name('pdf.exportarestadocuentareporteP');
+
+    /* PARA GOOGLE */    
+    Route::get('sheetOperation', 'GoogleSheetsController@sheetOperation')->name('sheetOperation');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/', function () {

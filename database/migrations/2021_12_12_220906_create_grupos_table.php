@@ -15,7 +15,7 @@ class CreateGruposTable extends Migration
     {
         Schema::create('grupo', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('codigo', 1)
+            $table->string('codigo', 2)
                 ->nullable();
             $table->string('descripcion', 300)
                 ->nullable();

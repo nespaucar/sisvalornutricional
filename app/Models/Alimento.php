@@ -1,18 +1,18 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Bitacora extends Model
+class Alimento extends Model
 {
     use SoftDeletes;
-    protected $table = 'bitacora';
+    protected $table = 'alimento';
     protected $dates = ['deleted_at'];
 
     public function detallepago()
-	{
-		return $this->belongsTo('App\Detallepago', 'detallepago_id');
-	}
+    {
+        return $this->belongsTo('App\Models\Grupo', 'grupo_id');
+    }
 }

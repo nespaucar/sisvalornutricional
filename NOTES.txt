@@ -30,3 +30,22 @@ La carpeta ESQUELETO es el FrontEnd
 6. Cambiar en el campo de avatar a admin.jpg
 
 7. Loguearse con usuario "admin" contraseña "123"
+
+# SCRIPT PARA GRUPOS
+
+INSERT INTO `grupo` (`id`, `codigo`, `descripcion`, `created_at`, `updated_at`, `deleted_at`) VALUES 
+(NULL, 'A', 'Cereales y derivados', NULL, NULL, NULL), 
+(NULL, 'B', 'Verduras, hortalizas y derivados', NULL, NULL, NULL), 
+(NULL, 'C', 'Frutas y derivados', NULL, NULL, NULL), 
+(NULL, 'D', 'Grasas, aceites y oleaginosas', NULL, NULL, NULL), 
+(NULL, 'E', 'Pescados y mariscos', NULL, NULL, NULL), 
+(NULL, 'F', 'Carnes y derivados', NULL, NULL, NULL), 
+(NULL, 'G', 'Leche y derivados', NULL, NULL, NULL), 
+(NULL, 'H', 'Bebidas (alcohólicas y analcohólicas)', NULL, NULL, NULL), 
+(NULL, 'J', 'Huevos y derivados', NULL, NULL, NULL), 
+(NULL, 'K', 'Productos azucarados', NULL, NULL, NULL), 
+(NULL, 'L', 'Misceláneos', NULL, NULL, NULL), 
+(NULL, 'Q', 'Alimentos infantiles', NULL, NULL, NULL), 
+(NULL, 'T', 'Leguminosas y derivados', NULL, NULL, NULL), 
+(NULL, 'U', 'Tubérculos, raíces y derivados', NULL, NULL, NULL), 
+(NULL, 'S', 'Alimentos preparados', NULL, NULL, NULL);

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use Validator;
 use App\Http\Requests;
-use App\Menuoptioncategory;
+use App\Models\Menuoptioncategory;
 use App\Librerias\Libreria;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
