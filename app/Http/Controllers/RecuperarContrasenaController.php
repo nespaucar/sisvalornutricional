@@ -36,7 +36,7 @@ class RecuperarContrasenaController extends Controller
 			    $dni = $user->login;
 			    $cabeceras = 'MIME-Version: 1.0' . "\r\n";
 			    $cabeceras .= 'Content-type: text/html; charset=utf-8' . "\r\n";
-			    $cabeceras .= 'From: SistemaPagosMuniSanIgnacio';
+			    $cabeceras .= 'From: Calculadora Nutricional';
 			    $message = '<html> 
                     <head> 
                         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
@@ -53,8 +53,8 @@ class RecuperarContrasenaController extends Controller
                                                 <tr style="background-color: #658EC6;"> 
                                                     <td align="center">
                                                         <a href="https://munisanignacio.gob.pe/" target="_blank">
-                                                            <img src="assets/images/logo.png" alt="" height="50%" style="display: block; padding: 20px;"/> 
-                                                        </a>                                        
+                                                            <img src="' . asset('assets/images/logo.png') . '" alt="" height="50%" style="display: block; padding: 20px;"/> 
+                                                        </a>
                                                     </td> 
                                                 </tr> 
                                                 <tr style="background-color: #E3FF7A;"> 
