@@ -10,4 +10,9 @@ class Grupo extends Model
     use SoftDeletes;
     protected $table = 'grupo';
     protected $dates = ['deleted_at'];
+
+    public function menuoptions()
+    {
+        return $this->hasMany('App\Models\Alimento');
+    }
 }
