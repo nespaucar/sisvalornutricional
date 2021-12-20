@@ -2,13 +2,14 @@
 use App\Models\Menuoptioncategory;
 use App\Models\Usertype;
 use App\Models\Menuoption;
+use App\Models\Permission;
 use Illuminate\Support\Facades\Request;
 
 $categoriasPadre = Menuoptioncategory::whereNull('menuoptioncategory_id')->get();
 $asignados       = array();
-$opciones        = Usertype::find($usertype->id)->menuoptions;
+$opciones        = Permission::select('menuoption_id')->where('usertype_id', '=', $usertype->id)->get();
 foreach ($opciones as $key => $value) {
-	$asignados[] = $value->id;
+	$asignados[] = $value->menuoption_id;
 }
 
 function generarArbol($idcategoria, $nivel, $asignados){

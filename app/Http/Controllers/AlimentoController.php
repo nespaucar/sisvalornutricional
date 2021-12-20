@@ -11,6 +11,13 @@ use Illuminate\Support\Facades\DB;
 
 class AlimentoController extends Controller
 {
+    protected $folderview      = 'app.alimento';
+    protected $tituloAdmin     = 'Alimento';
+    protected $rutas           = array(
+            'search' => 'alimento.buscar',
+            'index'  => 'alimento.index',
+        );
+
     public function __construct()
     {
         $this->middleware('auth');

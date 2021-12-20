@@ -63,11 +63,12 @@ class CalculatorController extends Controller
 
     public function addAlimento(Request $request) {
         $id = $request->input('id');
+        $cantidad = $request->input('cantidad');
         $alimento = Alimento::select("alimento.energia_kcal", "alimento.energia_kJ", "alimento.agua", "alimento.proteina", "alimento.grasa", "alimento.carbohidrato_total", "alimento.carbohidrato_disponible", "alimento.fibra_dietaria", "alimento.ceniza", "alimento.calcio", "alimento.fosforo", "alimento.zinc", "alimento.hierro", "alimento.bcaroteno", "alimento.vitaminaA", "alimento.tiamina", "alimento.riboflavina", "alimento.niacina", "alimento.vitaminaC", "alimento.acido_folico", "alimento.sodio", "alimento.potasio", "alimento.id", DB::raw("CONCAT(grupo.codigo, ' - ', grupo.descripcion,': ', alimento.descripcion) AS descr"), 'alimento.estrato')
-            ->join('grupo', 'alimento.grupo_id', 'grupo.id')
-            ->where('alimento.estado', '=', 1)
-            ->where('alimento.id', '=', $id)
-            ->first();
+        ->join('grupo', 'grupo.id', '=', 'alimento.grupo_id')
+        ->where('alimento.estado', '=', 1)
+        ->where('alimento.id', '=', $id)
+        ->first();
         $existe = 'S';
         if($alimento === NULL) {
             $existe = 'N';
@@ -78,32 +79,147 @@ class CalculatorController extends Controller
             $data = array(
                 'existe' => $existe,
                 'id' => $alimento->id,
+                'cantidad' => number_format($cantidad, 2, '.', ''),
                 'descripcion' => $alimento->descr . ($alimento->estrato===NULL||$alimento->estrato===""||$alimento->estrato==="-"?"":" - ".$alimento->estrato),
-                'energia_kcal' => ($alimento->energia_kcal===NULL?"-":$alimento->energia_kcal),
-                'energia_kJ' => ($alimento->energia_kJ===NULL?"-":$alimento->energia_kJ),
-                'agua' => ($alimento->agua===NULL?"-":$alimento->agua),
-                'proteina' => ($alimento->proteina===NULL?"-":$alimento->proteina),
-                'grasa' => ($alimento->grasa===NULL?"-":$alimento->grasa),
-                'carbohidrato_total' => ($alimento->carbohidrato_total===NULL?"-":$alimento->carbohidrato_total),
-                'carbohidrato_disponible' => ($alimento->carbohidrato_disponible===NULL?"-":$alimento->carbohidrato_disponible),
-                'fibra_dietaria' => ($alimento->fibra_dietaria===NULL?"-":$alimento->fibra_dietaria),
-                'ceniza' => ($alimento->ceniza===NULL?"-":$alimento->ceniza),
-                'calcio' => ($alimento->calcio===NULL?"-":$alimento->calcio),
-                'fosforo' => ($alimento->fosforo===NULL?"-":$alimento->fosforo),
-                'zinc' => ($alimento->zinc===NULL?"-":$alimento->zinc),
-                'hierro' => ($alimento->hierro===NULL?"-":$alimento->hierro),
-                'bcaroteno' => ($alimento->bcaroteno===NULL?"-":$alimento->bcaroteno),
-                'vitaminaA' => ($alimento->vitaminaA===NULL?"-":$alimento->vitaminaA),
-                'tiamina' => ($alimento->tiamina===NULL?"-":$alimento->tiamina),
-                'riboflavina' => ($alimento->riboflavina===NULL?"-":$alimento->riboflavina),
-                'niacina' => ($alimento->niacina===NULL?"-":$alimento->niacina),
-                'vitaminaC' => ($alimento->vitaminaC===NULL?"-":$alimento->vitaminaC),
-                'acido_folico' => ($alimento->acido_folico===NULL?"-":$alimento->acido_folico),
-                'sodio' => ($alimento->sodio===NULL?"-":$alimento->sodio),
-                'potasio' => ($alimento->potasio===NULL?"-":$alimento->potasio),
+                'energia_kcal' => ($alimento->energia_kcal===NULL?"-":number_format($alimento->energia_kcal*$cantidad, 2, '.', '')),
+                'energia_kJ' => ($alimento->energia_kJ===NULL?"-":number_format($alimento->energia_kJ*$cantidad, 2, '.', '')),
+                'agua' => ($alimento->agua===NULL?"-":number_format($alimento->agua*$cantidad, 2, '.', '')),
+                'proteina' => ($alimento->proteina===NULL?"-":number_format($alimento->proteina*$cantidad, 2, '.', '')),
+                'grasa' => ($alimento->grasa===NULL?"-":number_format($alimento->grasa*$cantidad, 2, '.', '')),
+                'carbohidrato_total' => ($alimento->carbohidrato_total===NULL?"-":number_format($alimento->carbohidrato_total*$cantidad, 2, '.', '')),
+                'carbohidrato_disponible' => ($alimento->carbohidrato_disponible===NULL?"-":number_format($alimento->carbohidrato_disponible*$cantidad, 2, '.', '')),
+                'fibra_dietaria' => ($alimento->fibra_dietaria===NULL?"-":number_format($alimento->fibra_dietaria*$cantidad, 2, '.', '')),
+                'ceniza' => ($alimento->ceniza===NULL?"-":number_format($alimento->ceniza*$cantidad, 2, '.', '')),
+                'calcio' => ($alimento->calcio===NULL?"-":number_format($alimento->calcio*$cantidad, 2, '.', '')),
+                'fosforo' => ($alimento->fosforo===NULL?"-":number_format($alimento->fosforo*$cantidad, 2, '.', '')),
+                'zinc' => ($alimento->zinc===NULL?"-":number_format($alimento->zinc*$cantidad, 2, '.', '')),
+                'hierro' => ($alimento->hierro===NULL?"-":number_format($alimento->hierro*$cantidad, 2, '.', '')),
+                'bcaroteno' => ($alimento->bcaroteno===NULL?"-":number_format($alimento->bcaroteno*$cantidad, 2, '.', '')),
+                'vitaminaA' => ($alimento->vitaminaA===NULL?"-":number_format($alimento->vitaminaA*$cantidad, 2, '.', '')),
+                'tiamina' => ($alimento->tiamina===NULL?"-":number_format($alimento->tiamina*$cantidad, 2, '.', '')),
+                'riboflavina' => ($alimento->riboflavina===NULL?"-":number_format($alimento->riboflavina*$cantidad, 2, '.', '')),
+                'niacina' => ($alimento->niacina===NULL?"-":number_format($alimento->niacina*$cantidad, 2, '.', '')),
+                'vitaminaC' => ($alimento->vitaminaC===NULL?"-":number_format($alimento->vitaminaC*$cantidad, 2, '.', '')),
+                'acido_folico' => ($alimento->acido_folico===NULL?"-":number_format($alimento->acido_folico*$cantidad, 2, '.', '')),
+                'sodio' => ($alimento->sodio===NULL?"-":number_format($alimento->sodio*$cantidad, 2, '.', '')),
+                'potasio' => ($alimento->potasio===NULL?"-":number_format($alimento->potasio*$cantidad, 2, '.', '')),
             );
         }
             
+        return json_encode($data);
+    }
+
+    public function cambiarValoresSesion(Request $request) {
+        $cadenaAlimentos = $request->input('cadenaAlimentos');
+        $cadenaCantidades = $request->input('cadenaCantidades');
+        $request->session()->put('cadenaAlimentos', $cadenaAlimentos);
+        $request->session()->put('cadenaCantidades', $cadenaCantidades);
+        return $request->session()->get('cadenaAlimentos')."---".$request->session()->get('cadenaCantidades');
+    }
+
+    public function precargarTablaAlimentos(Request $request) {
+        $cadenaAlimentos = $request->session()->get('cadenaAlimentos');
+        $cadenaCantidades = $request->session()->get('cadenaCantidades');
+        $tabla = '<tr id="emptyRow" data-id="" data-cantidad="">
+            <td class="text-primary text-center" colspan="25">Seleccione al menos un alimento.</td>
+        </tr>';
+        if($cadenaAlimentos!==NULL&&$cadenaAlimentos!=='') {
+            $tabla = '';
+            $alimentos = explode(";", $cadenaAlimentos);
+            $cantidades = explode(";", $cadenaCantidades);
+            for ($i = 0; $i < count($alimentos); $i++) {
+                $alimento = Alimento::select("alimento.energia_kcal", "alimento.energia_kJ", "alimento.agua", "alimento.proteina", "alimento.grasa", "alimento.carbohidrato_total", "alimento.carbohidrato_disponible", "alimento.fibra_dietaria", "alimento.ceniza", "alimento.calcio", "alimento.fosforo", "alimento.zinc", "alimento.hierro", "alimento.bcaroteno", "alimento.vitaminaA", "alimento.tiamina", "alimento.riboflavina", "alimento.niacina", "alimento.vitaminaC", "alimento.acido_folico", "alimento.sodio", "alimento.potasio", "alimento.id", DB::raw("CONCAT(grupo.codigo, ' - ', grupo.descripcion,': ', alimento.descripcion) AS descr"), 'alimento.estrato')
+                ->join('grupo', 'grupo.id', '=', 'alimento.grupo_id')
+                ->where('alimento.id', '=', $alimentos[$i])
+                ->first();
+                if($alimento !== NULL) {
+                    $cantidad = $cantidades[$i];
+                    $tabla .= '<tr data-cantidad="' . $cantidad . '" data-id="' . $alimentos[$i] . '" id="' . $alimentos[$i] . '" align="center">
+                        <td class="text-left num">' . ($i + 1) . '</td>
+                        <td class="text-left descripcion">' . 
+                            ($alimento->descr . ($alimento->estrato===NULL||$alimento->estrato===""||$alimento->estrato==="-"?"":" - ".$alimento->estrato)) . 
+                        '</td>
+                        <td class="text-left cantidad">' . $cantidad . '</td>
+                        <td class="text-left energia_kcal">' . 
+                            ($alimento->energia_kcal===NULL?"-":number_format($alimento->energia_kcal*$cantidad, 2, '.', '')) . 
+                        '</td>
+                        <td class="text-left energia_kJ">' . 
+                            ($alimento->energia_kJ===NULL?"-":number_format($alimento->energia_kJ*$cantidad, 2, '.', '')) . 
+                        '</td>
+                        <td class="text-left agua">' . 
+                            ($alimento->agua===NULL?"-":number_format($alimento->agua*$cantidad, 2, '.', '')) . 
+                        '</td>
+                        <td class="text-left proteina">' . 
+                            ($alimento->proteina===NULL?"-":number_format($alimento->proteina*$cantidad, 2, '.', '')) . 
+                        '</td>
+                        <td class="text-left grasa">' . 
+                            ($alimento->grasa===NULL?"-":number_format($alimento->grasa*$cantidad, 2, '.', '')) . 
+                        '</td>
+                        <td class="text-left carbohidrato_total">' . 
+                            ($alimento->carbohidrato_total===NULL?"-":number_format($alimento->carbohidrato_total*$cantidad, 2, '.', '')) . 
+                        '</td>
+                        <td class="text-left carbohidrato_disponible">' . 
+                            ($alimento->carbohidrato_disponible===NULL?"-":number_format($alimento->carbohidrato_disponible*$cantidad, 2, '.', '')) . 
+                        '</td>
+                        <td class="text-left fibra_dietaria">' . 
+                            ($alimento->fibra_dietaria===NULL?"-":number_format($alimento->fibra_dietaria*$cantidad, 2, '.', '')) . 
+                        '</td>
+                        <td class="text-left ceniza">' . 
+                            ($alimento->ceniza===NULL?"-":number_format($alimento->ceniza*$cantidad, 2, '.', '')) . 
+                        '</td>
+                        <td class="text-left calcio">' . 
+                            ($alimento->calcio===NULL?"-":number_format($alimento->calcio*$cantidad, 2, '.', '')) . 
+                        '</td>
+                        <td class="text-left fosforo">' . 
+                            ($alimento->fosforo===NULL?"-":number_format($alimento->fosforo*$cantidad, 2, '.', '')) . 
+                        '</td>
+                        <td class="text-left zinc">' . 
+                            ($alimento->zinc===NULL?"-":number_format($alimento->zinc*$cantidad, 2, '.', '')) . 
+                        '</td>
+                        <td class="text-left hierro">' . 
+                            ($alimento->hierro===NULL?"-":number_format($alimento->hierro*$cantidad, 2, '.', '')) . 
+                        '</td>
+                        <td class="text-left bcaroteno">' . 
+                            ($alimento->bcaroteno===NULL?"-":number_format($alimento->bcaroteno*$cantidad, 2, '.', '')) . 
+                        '</td>
+                        <td class="text-left vitaminaA">' . 
+                            ($alimento->vitaminaA===NULL?"-":number_format($alimento->vitaminaA*$cantidad, 2, '.', '')) . 
+                        '</td>
+                        <td class="text-left tiamina">' . 
+                            ($alimento->tiamina===NULL?"-":number_format($alimento->tiamina*$cantidad, 2, '.', '')) . 
+                        '</td>
+                        <td class="text-left riboflavina">' . 
+                            ($alimento->riboflavina===NULL?"-":number_format($alimento->riboflavina*$cantidad, 2, '.', '')) . 
+                        '</td>
+                        <td class="text-left niacina">' . 
+                            ($alimento->niacina===NULL?"-":number_format($alimento->niacina*$cantidad, 2, '.', '')) . 
+                        '</td>
+                        <td class="text-left vitaminaC">' . 
+                            ($alimento->vitaminaC===NULL?"-":number_format($alimento->vitaminaC*$cantidad, 2, '.', '')) . 
+                        '</td>
+                        <td class="text-left acido_folico">' . 
+                            ($alimento->acido_folico===NULL?"-":number_format($alimento->acido_folico*$cantidad, 2, '.', '')) . 
+                        '</td>
+                        <td class="text-left sodio">' . 
+                            ($alimento->energia_kcal===NULL?"-":number_format($alimento->energia_kcal*$cantidad, 2, '.', '')) . 
+                        '</td>
+                        <td class="text-left potasio">' . 
+                            ($alimento->potasio===NULL?"-":number_format($alimento->potasio*$cantidad, 2, '.', '')) . 
+                        '</td>
+                        <td class="text-center">
+                            <a onclick="eliminarAlimento(this, ' . $alimentos[$i] . ');" class="btn btn-xs btn-danger" type="button">
+                                <div class="glyphicon glyphicon-remove"></div>
+                            </a>
+                        </td>
+                    </tr>';
+                }                    
+            }
+        }
+        $data = array(
+            'cadenaAlimentos' => ($cadenaAlimentos===NULL?'':$cadenaAlimentos),
+            'cadenaCantidades' => ($cadenaCantidades===NULL?'':$cadenaCantidades),
+            'tabla' => $tabla,
+        );
         return json_encode($data);
     }
 }

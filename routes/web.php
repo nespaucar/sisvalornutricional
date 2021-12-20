@@ -121,13 +121,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('exportarestadocuentareporteE', 'ExcelController@exportarestadocuentareporteE')->name('excel.exportarestadocuentareporteE');
     Route::get('exportarestadocuentareporteP', 'PdfController@exportarestadocuentareporteP')->name('pdf.exportarestadocuentareporteP');
 
-    /* PARA GOOGLE */    
+    /* PARA GOOGLE */
     Route::get('sheetOperation', 'GoogleSheetsController@sheetOperation')->name('sheetOperation');
 
-    /* CALCULADORA NUTRICIONAL */
-    Route::resource('calculator', 'CalculatorController', array('except' => array('show')));
+    /* PARA ALIMENTOS */
     Route::post('alimento/cargarSelectAlimentos', 'AlimentoController@cargarSelectAlimentos')->name('alimento.cargarSelectAlimentos');
-    Route::post('calculator/addAlimento', 'CalculatorController@addAlimento')->name('calculator.addAlimento');
+
+    /* CALCULADORA NUTRICIONAL */
+    Route::resource('calculator', 'CalculatorController', array('except' => array('show')));    
+    Route::post('calculator/addAlimento', 'CalculatorController@addAlimento')->name('calculator.addAlimento');    
+    Route::get('calculator/cambiarValoresSesion', 'CalculatorController@cambiarValoresSesion')->name('calculator.cambiarValoresSesion');
+    Route::post('calculator/precargarTablaAlimentos', 'CalculatorController@precargarTablaAlimentos')->name('calculator.precargarTablaAlimentos');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/', function () {
