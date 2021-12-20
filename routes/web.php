@@ -132,6 +132,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('calculator/addAlimento', 'CalculatorController@addAlimento')->name('calculator.addAlimento');    
     Route::get('calculator/cambiarValoresSesion', 'CalculatorController@cambiarValoresSesion')->name('calculator.cambiarValoresSesion');
     Route::post('calculator/precargarTablaAlimentos', 'CalculatorController@precargarTablaAlimentos')->name('calculator.precargarTablaAlimentos');
+
+    /* ALIMENTO */
+    Route::post('alimento/buscar', 'AlimentoController@buscar')->name('alimento.buscar');
+    Route::get('alimento/eliminar/{id}/{listarluego}', 'AlimentoController@eliminar')->name('alimento.eliminar');
+    Route::resource('alimento', 'AlimentoController', array('except' => array('show')));
+
+    /* GRUPO */
+    Route::post('grupo/buscar', 'GrupoController@buscar')->name('grupo.buscar');
+    Route::get('grupo/eliminar/{id}/{listarluego}', 'GrupoController@eliminar')->name('grupo.eliminar');
+    Route::resource('grupo', 'GrupoController', array('except' => array('show')));
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/', function () {
