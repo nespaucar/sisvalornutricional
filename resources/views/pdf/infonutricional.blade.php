@@ -18,7 +18,11 @@
 				  	<b>{{ $card['id'] }}</b>
 				  	<br>
 				  	<br>
-				  	<b>{{ $sumas[$i] }}{{ $card['unity'] }}</b>
+				  	@if(count($sumas) > 0)
+				  		<b>{{ $sumas[$i] }}{{ $card['unity'] }}</b>
+				  	@else
+				  		<b>-</b>
+				  	@endif
 				  	<br>
 				</td>
 			@if($num === 5) </tr> <?php $num = -1; ?> @endif		

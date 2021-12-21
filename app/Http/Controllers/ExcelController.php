@@ -114,8 +114,8 @@ class ExcelController extends Controller
 
         $sumas = array();
 
-        $tabla = '<tr id="emptyRow" data-id="" data-cantidad="">
-            <td class="text-primary text-center" colspan="25">Seleccione al menos un alimento.</td>
+        $tabla = '<tr>
+            <td align="center" colspan="25" style="font-size:13px;">Seleccione al menos un alimento.</td>
         </tr>';
 
         if($cadenaAlimentos!==NULL&&$cadenaAlimentos!=='') {
