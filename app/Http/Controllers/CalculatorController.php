@@ -201,7 +201,7 @@ class CalculatorController extends Controller
                             ($alimento->acido_folico===NULL?"-":number_format($alimento->acido_folico*$cantidad, 2, '.', '')) . 
                         '</td>
                         <td class="text-left sodio">' . 
-                            ($alimento->energia_kcal===NULL?"-":number_format($alimento->energia_kcal*$cantidad, 2, '.', '')) . 
+                            ($alimento->sodio===NULL?"-":number_format($alimento->sodio*$cantidad, 2, '.', '')) . 
                         '</td>
                         <td class="text-left potasio">' . 
                             ($alimento->potasio===NULL?"-":number_format($alimento->potasio*$cantidad, 2, '.', '')) . 

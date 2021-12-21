@@ -101,25 +101,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('deuda/buscar', 'DeudaController@buscar')->name('deuda.buscar');
     Route::resource('deuda', 'DeudaController', array('except' => array('show')));
 
-    /*REPORTES*/
-    Route::get('bitacorareporte', 'ReporteController@bitacorareporte', array('except' => array('show')));
-    Route::post('reporte/listarbitacorareporte', 'ReporteController@listarbitacorareporte')->name('reporte.listarbitacorareporte');
-    Route::get('mercaderreporte', 'ReporteController@mercaderreporte', array('except' => array('show')));
-    Route::post('reporte/listarmercaderreporte', 'ReporteController@listarmercaderreporte')->name('reporte.listarmercaderreporte');
-    Route::get('ingresoreporte', 'ReporteController@ingresoreporte', array('except' => array('show')));
-    Route::post('reporte/listaringresoreporte', 'ReporteController@listaringresoreporte')->name('reporte.listaringresoreporte');
-    Route::get('estadocuentareporte', 'ReporteController@estadocuentareporte', array('except' => array('show')));
-    Route::post('reporte/listarestadocuentareporte', 'ReporteController@listarestadocuentareporte')->name('reporte.listarestadocuentareporte');
+    /*REPORTES => VISTA*/
+    # Route::get('bitacorareporte', 'ReporteController@bitacorareporte', array('except' => array('show')));
+    # Route::post('reporte/listarbitacorareporte', 'ReporteController@listarbitacorareporte')->name('reporte.listarbitacorareporte');
+    # Route::get('mercaderreporte', 'ReporteController@mercaderreporte', array('except' => array('show')));
+    # Route::post('reporte/listarmercaderreporte', 'ReporteController@listarmercaderreporte')->name('reporte.listarmercaderreporte');
+    # Route::get('ingresoreporte', 'ReporteController@ingresoreporte', array('except' => array('show')));
+    # Route::post('reporte/listaringresoreporte', 'ReporteController@listaringresoreporte')->name('reporte.listaringresoreporte');
+    # Route::get('estadocuentareporte', 'ReporteController@estadocuentareporte', array('except' => array('show')));
+    # Route::post('reporte/listarestadocuentareporte', 'ReporteController@listarestadocuentareporte')->name('reporte.listarestadocuentareporte');
 
     /*REPORTES EXCEL Y PDF*/
-    Route::get('exportarbitacorareporteE', 'ExcelController@exportarbitacorareporteE')->name('excel.exportarbitacorareporteE');
-    Route::get('exportarbitacorareporteP', 'PdfController@exportarbitacorareporteP')->name('pdf.exportarbitacorareporteP');
-    Route::get('exportarmercaderreporteE', 'ExcelController@exportarmercaderreporteE')->name('excel.exportarmercaderreporteE');
-    Route::get('exportarmercaderreporteP', 'PdfController@exportarmercaderreporteP')->name('pdf.exportarmercaderreporteP');
-    Route::get('exportaringresoreporteE', 'ExcelController@exportaringresoreporteE')->name('excel.exportaringresoreporteE');
-    Route::get('exportaringresoreporteP', 'PdfController@exportaringresoreporteP')->name('pdf.exportaringresoreporteP');
-    Route::get('exportarestadocuentareporteE', 'ExcelController@exportarestadocuentareporteE')->name('excel.exportarestadocuentareporteE');
-    Route::get('exportarestadocuentareporteP', 'PdfController@exportarestadocuentareporteP')->name('pdf.exportarestadocuentareporteP');
+    # Route::get('exportarbitacorareporteE', 'ExcelController@exportarbitacorareporteE')->name('excel.exportarbitacorareporteE');
+    # Route::get('exportarbitacorareporteP', 'PdfController@exportarbitacorareporteP')->name('pdf.exportarbitacorareporteP');
+    Route::get('exportarInformacionNutricionalPDF', 'ExcelController@exportarInformacionNutricionalPDF')->name('excel.exportarInformacionNutricionalPDF');
 
     /* PARA GOOGLE */
     Route::get('sheetOperation', 'GoogleSheetsController@sheetOperation')->name('sheetOperation');

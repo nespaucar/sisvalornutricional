@@ -40,7 +40,7 @@ $date                  = Date::instance($user->created_at)->format('l j F Y');
                 <!-- LOGO -->
                 <div class="topbar-left">
                     <div class="text-center">
-                        <a href="#" class="logo"><i class="fa fa-calculator"></i> <span>Calculadora Nutricional</span> </a>
+                        <a href="#" class="logo"><i class="fa fa-calculator"></i> <span>Calculator</span> </a>
                     </div>
                 </div>
 

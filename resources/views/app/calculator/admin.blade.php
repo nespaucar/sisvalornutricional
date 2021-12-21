@@ -34,7 +34,7 @@
 						{!! Form::text('cantidad', null, array('class' => 'form-control input-xs text-right', 'id' => 'cantidad', 'placeholder' => 'gramos', 'onkeyup' => 'checkButtonAddStatus();', 'autocomplete' => 'off')) !!}
 						{!! Form::button('<i class="fa fa-plus"></i> Añadir', array('class' => 'btn btn-info waves-effect waves-light m-l-10 btn-sm', 'id' => 'btnAdd', 'onclick' => 'addAlimento();', 'disabled' => true)) !!}
 						{!! Form::button('<i class="glyphicon glyphicon-refresh"></i> Reiniciar', array('class' => 'btn btn-danger waves-effect waves-light m-l-10 btn-sm', 'id' => 'btnReiniciar', 'onclick' => 'resetAlimento("S");')) !!}
-						{!! Form::button('<i class="glyphicon glyphicon-file"></i> Exportar', array('class' => 'btn btn-success waves-effect waves-light m-l-10 btn-sm', 'id' => 'btnExportar', 'onclick' => '')) !!}
+						{!! Form::button('<i class="glyphicon glyphicon-file"></i> Exportar', array('class' => 'btn btn-success waves-effect waves-light m-l-10 btn-sm', 'id' => 'btnExportar', 'onclick' => 'exportarPDF();')) !!}
                 	</div>
                 </div>
             </div>
@@ -220,6 +220,7 @@
 					reensamblarTablaAlimentos();
 					$('#emptyRow').remove();
 					$('#cantidad').val('');
+					checkButtonAddStatus();
 					mostrarMensaje('Alimento Agregado Correctamente', 'OK');
 				} else {
 					mostrarMensaje('El alimento no se pudo agregar. No manipule los ID', 'ERROR');
@@ -411,5 +412,9 @@
 				checkButtonAddStatus();
 			}
 		});
+	}
+
+	function exportarPDF() {
+		window.open('exportarInformacionNutricionalPDF', '_blank');
 	}
 </script>

@@ -12,7 +12,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
-class EstadoCuentaExport implements 
+class EjemploExport implements 
 	FromView,
     ShouldAutoSize,
     WithDrawings,
@@ -20,41 +20,28 @@ class EstadoCuentaExport implements
 {
     use Exportable;
 
-	private $anno;
-	private $detconceptopago;
-	private $mercader;
-	private $cabecera;
+	private $variable1;
+	private $variable2;
 
-	public function __construct($totPagar, $totPagado, $totDeuda, $anno, $detconceptopago, $mercader, $cabecera) {
-		$this->anno = $anno;
-		$this->detconceptopago = $detconceptopago;
-		$this->mercader = $mercader;
-        $this->cabecera = $cabecera;
-        $this->totPagar = $totPagar;
-        $this->totPagado = $totPagado;
-		$this->totDeuda = $totDeuda;
+	public function __construct($variable1, $variable2) {
+		$this->variable1 = $variable1;
+		$this->variable2 = $variable2;
 	}
 
 	public function view(): View {
-        return view('reporte.estadocuenta', [
-            'anno' => $this->anno,
-            'detconceptopago' => $this->detconceptopago,
-            'mercader' => $this->mercader,
-            'cabecera' => $this->cabecera,
-            'totPagar' => $this->totPagar,
-            'totPagado' => $this->totPagado,
-            'totDeuda' => $this->totDeuda,
+        return view('reporte.algunavista', [
+            'variable1' => $this->variable1,
+            'variable2' => $this->variable2,
         ]);
     }
 
     public function drawings() {
     	$drawing = new Drawing();
-    	$drawing->setName('Logo de la Municipalidad');
-    	$drawing->setDescription('Municipalidad Provincial de San Ignacio');
+    	$drawing->setName('Logo del Reporte');
+    	$drawing->setDescription('Descripción del Reporte');
     	$drawing->setPath(public_path('logo.png'));
     	$drawing->setHeight(90);
     	$drawing->setCoordinates('B2');
-
     	return $drawing;
     }
 
@@ -71,12 +58,12 @@ class EstadoCuentaExport implements
                 'bold' =>  true
             )
         );
-        $styleMercader = array(
+        $style1 = array(
             'font' => array(
                 'bold' =>  true
             )
         );
-        $styleMercader2 = array(
+        $style2 = array(
             'alignment' => array(
                 'horizontal' => Alignment::HORIZONTAL_LEFT,
                 'vertical' => Alignment::VERTICAL_CENTER,
@@ -84,12 +71,12 @@ class EstadoCuentaExport implements
         );
         $sheet->getStyle("A:G")->applyFromArray($style);
         $sheet->getStyle('A7')->applyFromArray($styleTitle);
-        $sheet->getStyle('A9')->applyFromArray($styleMercader);
-        $sheet->getStyle('B9')->applyFromArray($styleMercader2);
+        $sheet->getStyle('A9')->applyFromArray($style1);
+        $sheet->getStyle('B9')->applyFromArray($style2);
         $sheet->mergeCells('A7:G7');
         $sheet->mergeCells('B9:G9');
-        $sheet->getCellByColumnAndRow(1, 7)->setValue('REPORTE DE ESTADO DE CUENTA - SISTEMA DE PAGOS');
-        $sheet->getCellByColumnAndRow(1, 9)->setValue('Mercader');
+        $sheet->getCellByColumnAndRow(1, 7)->setValue('TÍTULO DE REPORTE');
+        $sheet->getCellByColumnAndRow(1, 9)->setValue('Línea adicional de reporte');
         $sheet->getCellByColumnAndRow(2, 9)->setValue($this->mercader->persona->nombre);
     }
 }
